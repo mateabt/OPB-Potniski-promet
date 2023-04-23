@@ -1,23 +1,41 @@
-#!/usr/bin/env python2
-# -*- coding: utf-8 -*-
-import bottle
-from bottle import *
-import hashlib
+#!/usr/bin/python
+# -*- encoding: utf-8 -*-
+
+# uvozimo bottle.py
+from bottleext import get, post, run, request, template, redirect, static_file, url, response
+
+# uvozimo ustrezne podatke za povezavo
 import auth_public as auth
+
+# uvozimo psycopg2
 import psycopg2, psycopg2.extensions, psycopg2.extras
-psycopg2.extensions.register_type(psycopg2.extensions.UNICODE)
-from funkcije import * 
-import sqlite3
-from datetime import datetime
-from bottle import get, static_file
+psycopg2.extensions.register_type(psycopg2.extensions.UNICODE) # se znebimo problemov s šumniki
 
-######################################################################
+import os
+import hashlib
 
-conn = psycopg2.connect(database=auth.db, host=auth.host, user=auth.user, password=auth.password) ########
-conn.set_isolation_level(psycopg2.extensions.ISOLATION_LEVEL_AUTOCOMMIT)                          #GLOBALNO
-cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)                                      ############              
+# privzete nastavitve
+SERVER_PORT = os.environ.get('BOTTLE_PORT', 8080)
+RELOADER = os.environ.get('BOTTLE_RELOADER', True)
+DB_PORT = os.environ.get('POSTGRES_PORT', 5432)
 
-secret = "kjbjkvjh675aosfh1309uhn0f1j1f9hj"
+# odkomentiraj, če želiš sporočila o napakah
+debug = True
+
+skrivnost = "rODX3ulHw3ZYRdbIVcp1IfJTDn8iQTH6TFaNBgrSkjIulr"
+
+def nastaviSporocilo(sporocilo = None):
+    # global napakaSporocilo
+    staro = request.get_cookie("sporocilo", secret=skrivnost)
+#    if sporocilo is None:
+#        bottle.Response.delete_cookie(key='sporocilo', path='/', secret=skrivnost)
+#    else:
+#        bottle.Response.set_cookie(key='sporocilo', value=sporocilo, path="/", secret=skrivnost)
+    return staro 
+
+@get('/static/<filename:path>')
+def static(filename):
+    return static_file(filename, root='static')
 #####################################################################################
 
 static_dir = "./static"
