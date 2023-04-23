@@ -1,0 +1,17 @@
+mesto,kratica_drzave
+Dunaj,AT
+Gradec,AT
+Beljak,AT,
+Salzburg,AT
+Frankfurt,DE
+München,DE
+Stuttgart,DE
+Zagreb,HR
+Reka,HR
+Opatija,HR
+Pulj,HR
+Trst,IT
+Praga,CZ
+Zürich,CH
+Budimpešta,HU
+Bratislava,SK

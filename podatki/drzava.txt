@@ -1,0 +1,9 @@
+kratica,ime_drzave
+Avstrija,AT
+Nemčija,DE
+Hrvaška,HR
+Italija,IT
+Češka,CZ
+Švica,CH
+Madžarska,HU
+Slovaška,SK
