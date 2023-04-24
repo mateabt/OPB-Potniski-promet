@@ -112,26 +112,11 @@ h1{
 <body background='{{url("static", filename="abc.jpg")}}'>
 </body>
   
-<br>
+<div class="slide"> 
 <img class="mySlides" src="{{url('static', filename= 'povezave.png')}}" style="width:700; height:450;"> 
+</div>
 
 
-
-<script>   
-var myIndex = 0;
-carousel();
-function carousel() {
-  var i;
-  var x = document.getElementsByClassName("mySlides");
-  for (i = 0; i < x.length; i++) {
-    x[i].style.display = "none";  
-  }
-  myIndex++;
-  if (myIndex > x.length) {myIndex = 1}    
-  x[myIndex-1].style.display = "block";  
-  setTimeout(carousel, 4000); 
-}
-</script>
 
 <div class="footer">
   <p> Proekt: Osnove podatkovnih baz 2022/23</p>
