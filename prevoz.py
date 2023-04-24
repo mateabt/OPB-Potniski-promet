@@ -23,13 +23,21 @@ SERVER_PORT = os.environ.get('BOTTLE_PORT', 8080)
 RELOADER = os.environ.get('BOTTLE_RELOADER', True)
 DB_PORT = os.environ.get('POSTGRES_PORT', 5432)
 
+# mapa za statične vire
+static_dir = "./static"
+
+# streženje statičnih datotek
+@route("/static/<filename:path>")
+def static(filename):
+    return static_file(filename, root=static_dir)
+
+
 debug(True)
 
 
 ######################################################################
 
-# mapa za statične vire
-static_dir = "./static"
+
 
 def nastaviSporocilo(sporocilo = None):
     # global napakaSporocilo
