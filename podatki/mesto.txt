@@ -1,7 +1,6 @@
 mesto,kratica_drzave
 Dunaj,AT
-Gradec,AT
-Beljak,AT,
+Graz,AT
 Salzburg,AT
 Frankfurt,DE
 München,DE
