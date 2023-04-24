@@ -63,6 +63,10 @@ def index():
     return template('zacetna.html', napaka=None)
 
 
+@get('/projekt')
+def projekt_page():
+    return template('projekt.html')
+
 
 ######################################################################
 # Glavni program
