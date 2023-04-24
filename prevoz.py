@@ -62,12 +62,16 @@ def hashGesla(s):
 def index():
     return template('zacetna.html', napaka=None)
 
-
-@get('/about')
+@get('/projekt')
 def projekt():
-    napaka = nastaviSporocilo()
-    return template("projekt.html", napaka=napaka)
+    return template("views/projekt.html", naslov='O projektu', url=url)
 
+
+#@get('/about')
+#def projekt():
+#    napaka = nastaviSporocilo()
+#    return template("projekt.html", napaka=napaka)
+#
 
 ######################################################################
 # Glavni program
