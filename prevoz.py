@@ -65,7 +65,8 @@ def index():
 
 @get('/about')
 def projekt():
-    return template("projekt.html", naslov='O podjetju')
+    napaka = nastaviSporocilo()
+    return template("projekt.html", napaka)
 
 
 ######################################################################
