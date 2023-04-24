@@ -42,11 +42,11 @@ debug(True)
 def nastaviSporocilo(sporocilo = None):
     # global napakaSporocilo
     staro = request.get_cookie("sporocilo", secret=skrivnost)
-    if sporocilo is None:
-        response.delete_cookie('sporocilo') #če funkciji ne podamo ničesar, izbriše piškotek z imenom sporočilo
-    else:
-        response.set_cookie('sporocilo', sporocilo, path="/", secret=skrivnost)
-    return staro
+#    if sporocilo is None:
+#        bottle.Response.delete_cookie(key='sporocilo', path='/', secret=skrivnost)
+#    else:
+#        bottle.Response.set_cookie(key='sporocilo', value=sporocilo, path="/", secret=skrivnost)
+    return staro 
 
 def hashGesla(s):
     """Vrni SHA-512 hash danega UTF-8 niza. Gesla vedno spravimo v bazo
@@ -62,16 +62,11 @@ def hashGesla(s):
 def index():
     return template('zacetna.html', napaka=None)
 
+
 @get('/projekt')
 def projekt():
-    return template("views/projekt.html", naslov='O projektu', url=url)
+    return template("projekt.html", napaka=None)
 
-
-#@get('/about')
-#def projekt():
-#    napaka = nastaviSporocilo()
-#    return template("projekt.html", napaka=napaka)
-#
 
 ######################################################################
 # Glavni program
