@@ -63,9 +63,9 @@ def index():
     return template('zacetna.html', napaka=None)
 
 
-@get('/projekt')
-def projekt_page():
-    return template('projekt.html')
+@get('/about')
+def projekt():
+    return template("projekt.html", naslov='O podjetju')
 
 
 ######################################################################
