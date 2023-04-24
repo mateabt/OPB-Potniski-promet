@@ -1,0 +1,142 @@
+</head>
+<h1><center><em> Potniški promet z tujino</em></center></h1>
+<style type="text/css">
+h1{
+    color:rgb(240, 240, 244);
+	background:rgb(34, 35, 36);
+	font-size:50;
+   }
+   body{
+        background-image: url("slike/a.jpg");
+      }
+	  .topnav {
+  overflow: hidden;
+  background-color: #4f4f4f;
+}
+.navbar {
+  display: flex;                
+  justify-content: space-around; 
+  background-color: #919191;
+}
+
+ 
+.navbar a {
+  display: inline-block;
+  width: 150px;
+  font-size: 18px;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+  
+.dropdown {
+  float: left;
+  overflow: hidden;
+}
+.dropdown .dropbtn {
+  font-size: 18px;  
+  border: none;
+  outline: none;
+  color: white;
+  padding: 14px 16px;
+  background-color: inherit;
+  font-family: inherit;
+  margin: 0;
+}
+.navbar a:hover, .dropdown:hover .dropbtn {
+  background-color: rgb(139, 139, 201);
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+.dropdown-content a {
+  float: none;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+.footer {
+   position: fixed;
+   color: white;
+   left: 0;
+   bottom: 0;
+   width: 100%;
+   background-color: rgb(26, 26, 28);
+   text-align: center;
+   }
+   .slide{
+          position:fixed;
+          top:180px;
+          left:800px;
+       
+		      color:white;
+         
+		  
+   }
+</style>
+
+<div class="navbar">
+  <a href="zacetna.html">Začetna stran</a>
+  <a href="">O projektu</a>
+	  <a href="">Vozni red</a>
+
+	    
+  <div class="dropdown">
+    <button class="dropbtn">Prijava 
+      <i class="fa fa-caret-down"></i>
+    </button>
+    
+   <div class="dropdown-content">
+      <a href=" ">Nov račun</a>
+      <a href=" ">Obstoječi račun</a>
+    </div>
+	</div>
+	
+
+	
+<body background="slike/a.jpg">
+</body>
+<div class="slide">
+  <img class="mySlides" src="slike/interior.jpg" style="width:700; height:450;">
+  <img class="mySlides" src="slike/sznovi-vlaki.jpg" style="width:700; height:450;">
+  <img class="mySlides" src="slike/vlak.jpg" style="width:700; height:450;"> 
+</div>
+
+
+<script>   
+var myIndex = 0;
+carousel();
+function carousel() {
+  var i;
+  var x = document.getElementsByClassName("mySlides");
+  for (i = 0; i < x.length; i++) {
+    x[i].style.display = "none";  
+  }
+  myIndex++;
+  if (myIndex > x.length) {myIndex = 1}    
+  x[myIndex-1].style.display = "block";  
+  setTimeout(carousel, 4000); 
+}
+</script>
+
+<div class="footer">
+  <p> Proekt: Osnove podatkovnih baz 2022/23</p>
+</div>
+
+
+</html>
