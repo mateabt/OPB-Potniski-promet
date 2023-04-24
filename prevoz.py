@@ -1,42 +1,36 @@
-#Bottle
-from bottle import *
-from bottleext import *
-# avtorizacija za priklop na bazo
-from auth_public import *
-# za gesla
-import hashlib
-#za trenutni cas
-from datetime import date    
-# za priklop na bazo
+#!/usr/bin/python
+# -*- encoding: utf-8 -*-
+
+# uvozimo bottle.py
+from bottleext import get, post, run, request, template, redirect, static_file, url
+
+# uvozimo ustrezne podatke za povezavo
+import auth_public as auth
+
+# uvozimo psycopg2
 import psycopg2, psycopg2.extensions, psycopg2.extras
-#znebimo problema s sumniki
-psycopg2.extensions.register_type(psycopg2.extensions.UNICODE)
+psycopg2.extensions.register_type(psycopg2.extensions.UNICODE) # se znebimo problemov s šumniki
 
 import os
+import hashlib
+
 # privzete nastavitve
 SERVER_PORT = os.environ.get('BOTTLE_PORT', 8080)
 RELOADER = os.environ.get('BOTTLE_RELOADER', True)
 DB_PORT = os.environ.get('POSTGRES_PORT', 5432)
 
-# PRIKLOP NA BAZO
-conn = psycopg2.connect(database=db, host=host, user=user, password=password, port=DB_PORT)
-cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor) 
+#za debugiranje
+#debuger(True)
 
-# sporočila o napakah
-debug(True)  # za izpise pri razvoju
-
-# params
-static_dir = "./static"
-
-skrivnost = 'laqwXUtKfHTp1SSpnkSg7VbsJtCgYS89Qnbhjv'
+@get('/static/<filename:path>')
+def static(filename):
+    return static_file(filename, root='static')
 
 
-
-# začetna stran
-@get('/')
+@get("/")
 def index():
-        redirect(url('uporabnik_get'))
-    return template('zacetna_stran.html', znacka=znacka)
+    return template('zacetna.html', osebe = cur)
+
 
 ######################################################################
 # Glavni program
