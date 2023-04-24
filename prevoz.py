@@ -28,6 +28,9 @@ debug(True)
 
 ######################################################################
 
+# mapa za statične vire
+static_dir = "./static"
+
 def nastaviSporocilo(sporocilo = None):
     # global napakaSporocilo
     staro = request.get_cookie("sporocilo", secret=skrivnost)
