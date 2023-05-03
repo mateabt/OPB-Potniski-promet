@@ -8,9 +8,7 @@ Stuttgart,DE
 Zagreb,HR
 Reka,HR
 Opatija,HR
-Pulj,HR
 Trst,IT
-Praga,CZ
 Zürich,CH
 Budimpešta,HU
-Bratislava,SK
+
