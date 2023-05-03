@@ -1,14 +1,14 @@
 
-mesto,kratica_drzave
-Dunaj,AT
-Graz,AT
-Salzburg,AT
-Frankfurt,DE
-München,DE
-Stuttgart,DE
-Zagreb,HR
-Reka,HR
-Opatija,HR
-Trst,IT
-Zürich,CH
-Budimpešta,HU
+id,mesto,kratica_drzave
+1,Dunaj,AT
+2,Graz,AT
+3,Salzburg,AT
+4,Frankfurt,DE
+5,München,DE
+6,Stuttgart,DE
+7,Zagreb,HR
+8,Reka,HR
+9,Opatija,HR
+10,Trst,IT
+11,Zürich,CH
+12,Budimpešta,HU
