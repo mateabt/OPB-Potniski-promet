@@ -11,7 +11,7 @@ def ustvari_tabelo():
     cur.execute("""
         CREATE TABLE mesto (
             id NUMERIC PRIMARY KEY,
-            mesto TEXT NOT NULL,
+            ime_mesta TEXT NOT NULL,
             kratica_drzave TEXT NOT NULL REFERENCES drzava(kratica)
             );
     """)
@@ -30,7 +30,7 @@ def uvozi_podatke():
         for r in rd:
             cur.execute("""
                 INSERT INTO mesto
-                (id, mesto, kratica_drzave)
+                (id, ime_mesta, kratica_drzave)
                 VALUES (%s, %s, %s)
                 """, r)
             # rid, = cur.fetchone()
@@ -40,3 +40,7 @@ def uvozi_podatke():
 
 conn = psycopg2.connect(database=auth.db, host=auth.host, user=auth.user, password=auth.password)
 cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor) 
+
+#pobrisi_tabelo()
+#ustvari_tabelo()
+#uvozi_podatke()
