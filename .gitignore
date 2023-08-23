@@ -128,5 +128,4 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# Dodala autorizacijo 
-auth.py
+auth_public.py
