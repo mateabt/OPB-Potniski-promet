@@ -72,7 +72,11 @@ def index():
 def projekt():
     return template("projekt.html", napaka=None)
 
-####
+
+# prijava
+@get('/prijava')
+def prijava():
+    return template('zacetna_stran.html',napaka=None)
 
 
 ######################################################################
