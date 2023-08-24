@@ -152,11 +152,11 @@ def podatki_prijavljenega():
     if uporabnik is None: 
         return
     uporabnisko_ime = request.get_cookie("uporabnisko_ime", secret=skrivnost)
-    cur.execute("""SELECT uporabnisko_ime,ime,priimek,datum_rojstva,ime_drzave,geslo,ime_skupine,oseba.st_izleta,ime_mesta
+    cur.execute("""SELECT uporabnisko_ime,ime,priimek,datum_rojstva,ime_drzave,geslo,ime_skupine,oseba.id_potovanja,ime_mesta
                 FROM oseba
                 LEFT JOIN drzava ON oseba.drzavljanstvo=drzava.kratica
                 LEFT JOIN skupina ON oseba.clanstvo=skupina.id_skupine
-                LEFT JOIN obisk ON oseba.st_izleta=obisk.st_izleta
+                LEFT JOIN obisk ON oseba.id_potovanja=obisk.id_potovanja
                 LEFT JOIN mesto ON obisk.id_mesta=mesto.id
                 WHERE uporabnisko_ime=%s;""",[uporabnisko_ime])
     return template('podatki_prijavljenega.html', oseba=cur)
@@ -225,7 +225,7 @@ def osebe():
     uporabnik = preveriUporabnika()
     if uporabnik is None: 
         return
-    cur.execute("""SELECT uporabnisko_ime,ime,priimek,datum_rojstva,drzavljanstvo,clanstvo,st_izleta 
+    cur.execute("""SELECT uporabnisko_ime,ime,priimek,datum_rojstva,drzavljanstvo,clanstvo,id_potovanja 
                 FROM oseba ORDER BY priimek, ime""")
     return template('osebe.html', oseba=cur)
 
@@ -234,6 +234,8 @@ def osebe():
 # Glavni program
 
 ######################################################################
+
+
 
 # priklopimo se na bazo
 conn = psycopg2.connect(database=auth.db, host=auth.host, user=auth.user, password=auth.password, port=DB_PORT)
