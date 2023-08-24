@@ -2,7 +2,7 @@
 # -*- encoding: utf-8 -*-
 
 # uvozimo bottle.py
-from bottleext import get, post, run, request, template, redirect, static_file, url, response
+from bottleext import *
 
 # uvozimo ustrezne podatke za povezavo
 import auth_public as auth
