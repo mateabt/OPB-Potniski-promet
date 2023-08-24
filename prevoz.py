@@ -38,13 +38,9 @@ def nastaviSporocilo(sporocilo = None):
 
 
 # mapa za statične vire
-static_dir = "./static"
-
-# streženje statičnih datotek
-@route("/static/<filename:path>")
+@get('/static/<filename:path>')
 def static(filename):
-    return static_file(filename, root=static_dir)
-
+    return static_file(filename, root='static')
 
 def preveriUporabnika(): 
     uporabnisko_ime = request.get_cookie("uporabnisko_ime", secret=skrivnost)
@@ -62,21 +58,98 @@ def preveriUporabnika():
 
 
 #########################################################
-
+# začetna stran
 @get('/')
-def index():
-    return template('zacetna.html', napaka=None)
+def zacetna():
+    return template('zacetna_stran.html')
+
+# prijava, registracija, odjava
+
+def hashGesla(s):
+    m = hashlib.sha256()
+    m.update(s.encode("utf-8"))
+    return m.hexdigest()
+
+@get('/registracija')
+def registracija_get():
+    napaka = nastaviSporocilo()
+    return template('registracija.html', napaka=napaka)
+
+@post('/registracija')
+def registracija_post():
+    uporabnisko_ime = request.forms.uporabnisko_ime
+    geslo = request.forms.geslo
+    geslo2 = request.forms.geslo2
+    ime = request.forms.ime
+    priimek = request.forms.priimek
+    datum_rojstva = request.forms.datum_rojstva
+    if uporabnisko_ime is None or geslo is None or geslo2 is None:
+        nastaviSporocilo('Registracija ni možna') 
+        redirect(url('registracija_get'))
+        return
+    uporabnik = None
+    try: 
+        cur.execute("SELECT * FROM oseba WHERE uporabnisko_ime = %s", [uporabnisko_ime])
+        uporabnik = cur.fetchone()
+    except:
+        uporabnik = None
+    if uporabnik is not None:
+        nastaviSporocilo('Registracija ni možna') 
+        redirect(url('registracija_get'))
+        return
+    if len(geslo) < 3:
+        nastaviSporocilo('Geslo mora imeti vsaj 3 znake.') 
+        redirect(url('registracija_get'))
+        return
+    if geslo != geslo2:
+        nastaviSporocilo('Gesli se ne ujemata.')
+        redirect(url('registracija_get'))
+        return
+    zgostitev = hashGesla(geslo)
+    cur.execute("""INSERT INTO oseba
+                (uporabnisko_ime,ime,priimek,datum_rojstva,geslo)
+                VALUES (%s, %s, %s, %s, %s)""", (uporabnisko_ime,ime,priimek,datum_rojstva, zgostitev))
+    conn.commit()
+    response.set_cookie('uporabnisko_ime', uporabnisko_ime, path='/', secret=skrivnost)
+    redirect(url('podatki_prijavljenega'))
 
 
-@get('/projekt')
-def projekt():
-    return template("projekt.html", napaka=None)
-
-
-# prijava
 @get('/prijava')
-def prijava():
-    return template('zacetna_stran.html',napaka=None)
+def prijava_get():
+    return template('prijava.html')
+
+@post('/prijava')
+def prijava_post():
+    uporabnisko_ime = request.forms.uporabnisko_ime
+    geslo = request.forms.geslo
+    if uporabnisko_ime is None or geslo is None:
+        nastaviSporocilo('Uporabniško ima in geslo morata biti neprazna') 
+        redirect(url('prijava_get'))
+        return
+    hashBaza = None
+    try: 
+        cur.execute("SELECT geslo FROM oseba WHERE uporabnisko_ime = %s", [uporabnisko_ime])
+        hashBaza, = cur.fetchone()
+    except:
+        hashBaza = None
+    if hashBaza is None:
+        nastaviSporocilo('Uporabniško geslo ali ime nista ustrezni') 
+        redirect(url('prijava_get'))
+        return
+    if hashGesla(geslo) != hashBaza:
+        nastaviSporocilo('Uporabniško geslo ali ime nista ustrezni') 
+        redirect(url('prijava_get'))
+        return
+    response.set_cookie('uporabnisko_ime', uporabnisko_ime, secret=skrivnost)
+    redirect(url('podatki_prijavljenega'))
+    
+@get('/odjava')
+def odjava_get():
+    response.delete_cookie(key='uporabnisko_ime')
+    redirect(url('zacetna'))
+
+
+
 
 
 ######################################################################
