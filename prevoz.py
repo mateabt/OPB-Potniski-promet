@@ -2,29 +2,27 @@
 # -*- encoding: utf-8 -*-
 
 # uvozimo bottle.py
-from bottleext import *
+from bottleext import get, post, run, request, template, redirect, static_file, url, response
 
 # uvozimo ustrezne podatke za povezavo
 import auth_public as auth
 
 # uvozimo psycopg2
 import psycopg2, psycopg2.extensions, psycopg2.extras
-psycopg2.extensions.register_type(psycopg2.extensions.UNICODE) 
-# se znebimo problemov s šumniki
+psycopg2.extensions.register_type(psycopg2.extensions.UNICODE) # se znebimo problemov s šumniki
 
 import os
 import hashlib
-from datetime import date, timedelta
-
-skrivnost="NaJsKrIvNoStNeJsAsKrIvNoSt"
 
 # privzete nastavitve
 SERVER_PORT = os.environ.get('BOTTLE_PORT', 8080)
 RELOADER = os.environ.get('BOTTLE_RELOADER', True)
 DB_PORT = os.environ.get('POSTGRES_PORT', 5432)
 
-####################################################
-debug(True)
+# odkomentiraj, če želiš sporočila o napakah
+debug = True
+
+skrivnost = "rODX3ulHw3ZYRdbIVcp1IfJTDn8iQTH6TFaNBgrSkjIulr"
 
 def nastaviSporocilo(sporocilo = None):
     # global napakaSporocilo
@@ -34,10 +32,7 @@ def nastaviSporocilo(sporocilo = None):
 #    else:
 #        bottle.Response.set_cookie(key='sporocilo', value=sporocilo, path="/", secret=skrivnost)
     return staro 
-######################################################3
 
-
-# mapa za statične vire
 @get('/static/<filename:path>')
 def static(filename):
     return static_file(filename, root='static')
