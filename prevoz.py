@@ -23,21 +23,8 @@ SERVER_PORT = os.environ.get('BOTTLE_PORT', 8080)
 RELOADER = os.environ.get('BOTTLE_RELOADER', True)
 DB_PORT = os.environ.get('POSTGRES_PORT', 5432)
 
-# mapa za statične vire
-static_dir = "./static"
-
-# streženje statičnih datotek
-@route("/static/<filename:path>")
-def static(filename):
-    return static_file(filename, root=static_dir)
-
-
+####################################################
 debug(True)
-
-
-######################################################################
-
-
 
 def nastaviSporocilo(sporocilo = None):
     # global napakaSporocilo
@@ -47,16 +34,34 @@ def nastaviSporocilo(sporocilo = None):
 #    else:
 #        bottle.Response.set_cookie(key='sporocilo', value=sporocilo, path="/", secret=skrivnost)
     return staro 
-
-def hashGesla(s):
-    """Vrni SHA-512 hash danega UTF-8 niza. Gesla vedno spravimo v bazo
-       kodirana s to funkcijo."""
-    h = hashlib.sha512()
-    h.update(s.encode('utf-8'))
-    return h.hexdigest()
+######################################################3
 
 
-#_____________________________________________________________
+# mapa za statične vire
+static_dir = "./static"
+
+# streženje statičnih datotek
+@route("/static/<filename:path>")
+def static(filename):
+    return static_file(filename, root=static_dir)
+
+
+def preveriUporabnika(): 
+    uporabnisko_ime = request.get_cookie("uporabnisko_ime", secret=skrivnost)
+    if uporabnisko_ime:
+       # cur = baza.cursor()    
+        uporabnik = None
+        try: 
+            cur.execute("SELECT * FROM oseba WHERE uporabnisko_ime = %s", [uporabnisko_ime])
+            uporabnik = cur.fetchone()
+        except:
+            uporabnik = None
+        if uporabnik: 
+            return uporabnik
+    redirect(url('prijava'))
+
+
+#########################################################
 
 @get('/')
 def index():
@@ -67,12 +72,14 @@ def index():
 def projekt():
     return template("projekt.html", napaka=None)
 
+####
+
 
 ######################################################################
 # Glavni program
 
 ######################################################################
-# Glavni program
+
 
 # priklopimo se na bazo
 baza = psycopg2.connect(database=auth.db, host=auth.host, user=auth.user, password=auth.password, port=DB_PORT)
