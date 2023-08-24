@@ -51,13 +51,13 @@ def preveriUporabnika():
             return uporabnik
     redirect(url('prijava'))
 
-
-#########################################################
+##########################
 # začetna stran
 @get('/')
-def zacetna():
+def hello():
     return template('zacetna_stran.html')
 
+##########################
 # prijava, registracija, odjava
 
 def hashGesla(s):
@@ -92,8 +92,8 @@ def registracija_post():
         nastaviSporocilo('Registracija ni možna') 
         redirect(url('registracija_get'))
         return
-    if len(geslo) < 3:
-        nastaviSporocilo('Geslo mora imeti vsaj 3 znake.') 
+    if len(geslo) < 4:
+        nastaviSporocilo('Geslo mora imeti vsaj 4 znake.') 
         redirect(url('registracija_get'))
         return
     if geslo != geslo2:
@@ -141,10 +141,93 @@ def prijava_post():
 @get('/odjava')
 def odjava_get():
     response.delete_cookie(key='uporabnisko_ime')
-    redirect(url('zacetna'))
+    redirect(url('hello'))
 
+##################################
+# podatki prijavljenega
 
+@get('/podatki_prijavljenega')
+def podatki_prijavljenega():
+    uporabnik = preveriUporabnika()
+    if uporabnik is None: 
+        return
+    uporabnisko_ime = request.get_cookie("uporabnisko_ime", secret=skrivnost)
+    cur.execute("""SELECT uporabnisko_ime,ime,priimek,datum_rojstva,ime_drzave,geslo,ime_skupine,oseba.st_izleta,ime_mesta
+                FROM oseba
+                LEFT JOIN drzava ON oseba.drzavljanstvo=drzava.kratica
+                LEFT JOIN skupina ON oseba.clanstvo=skupina.id_skupine
+                LEFT JOIN obisk ON oseba.st_izleta=obisk.st_izleta
+                LEFT JOIN mesto ON obisk.id_mesta=mesto.id
+                WHERE uporabnisko_ime=%s;""",[uporabnisko_ime])
+    return template('podatki_prijavljenega.html', oseba=cur)
 
+def najdi_id_skupine():
+    cur.execute("SELECT id_skupine,ime_skupine FROM skupina;")
+    return cur.fetchall()
+
+@get('/uredi_clanstvo')
+def uredi_clanstvo():
+    uporabnik = preveriUporabnika()
+    if uporabnik is None: 
+        return
+    return template('uredi_clanstvo.html', id_skupine='', skupine=najdi_id_skupine())
+
+@post('/uredi_clanstvo')
+def uredi_clanstvo_post():
+    uporabnik = preveriUporabnika()
+    if uporabnik is None: 
+        return
+    uporabnisko_ime = request.get_cookie("uporabnisko_ime", secret=skrivnost)
+    id_skupine = request.forms.id_skupine
+    try:
+        cur.execute("UPDATE oseba SET clanstvo=%s WHERE uporabnisko_ime=%s",
+                    (id_skupine, uporabnisko_ime))
+        conn.commit()
+    except Exception as ex:
+        conn.rollback()
+        return template('uredi_clanstvo.html', id_skupine=id_skupine,
+                        napaka='Zgodila se je napaka: %s' % ex)
+    redirect(url('podatki_prijavljenega'))
+
+def najdi_kratico():
+    cur.execute("SELECT kratica,ime_drzave FROM drzava;")
+    return cur.fetchall()
+
+@get('/uredi_drzavljanstvo')
+def uredi_drzavljanstvo():
+    uporabnik = preveriUporabnika()
+    if uporabnik is None: 
+        return
+    return template('uredi_drzavljanstvo.html', kratica='', drzave=najdi_kratico())
+
+@post('/uredi_drzavljanstvo')
+def uredi_drzavljanstvo_post():
+    uporabnik = preveriUporabnika()
+    if uporabnik is None: 
+        return
+    uporabnisko_ime = request.get_cookie("uporabnisko_ime", secret=skrivnost)
+    drzavljanstvo = request.forms.drzavljanstvo
+    try:
+        cur.execute("UPDATE oseba SET drzavljanstvo=%s WHERE uporabnisko_ime=%s",
+                    (drzavljanstvo, uporabnisko_ime))
+        conn.commit()
+    except Exception as ex:
+        conn.rollback()
+        return template('uredi_drzavljanstvo.html', drzavljanstvo=drzavljanstvo,
+                        napaka='Zgodila se je napaka: %s' % ex)
+    redirect(url('podatki_prijavljenega'))
+
+##################################
+# osebe
+
+@get('/osebe')
+def osebe():
+    uporabnik = preveriUporabnika()
+    if uporabnik is None: 
+        return
+    cur.execute("""SELECT uporabnisko_ime,ime,priimek,datum_rojstva,drzavljanstvo,clanstvo,st_izleta 
+                FROM oseba ORDER BY priimek, ime""")
+    return template('osebe.html', oseba=cur)
 
 
 ######################################################################
