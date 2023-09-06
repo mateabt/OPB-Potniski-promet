@@ -18,7 +18,7 @@ def ustvari_tabelo():
         drzavljanstvo TEXT REFERENCES drzava(kratica),
         geslo TEXT NOT NULL,
         clanstvo INTEGER REFERENCES skupina(id_skupine),
-        st_potovanja INTEGER REFERENCES obisk(voz)
+        st_potovanja INTEGER REFERENCES vlak(st_vlaka)
     );
     """) 
     conn.commit()
