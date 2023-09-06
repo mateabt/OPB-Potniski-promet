@@ -9,7 +9,7 @@ import csv
 
 def ustvari_tabelo():
     cur.execute("""
-        CREATE TABLE vlaki (
+        CREATE TABLE vlak (
             st_vlaka INTEGER PRIMARY KEY,
             st_prestopi NUMERIC 
             id_mesta_zacetek NUMERIC REFERENCES mesto(id),
@@ -20,7 +20,7 @@ def ustvari_tabelo():
 
 def pobrisi_tabelo():
     cur.execute("""
-        DROP TABLE vlaki;
+        DROP TABLE vlak;
     """)
     conn.commit()
 
