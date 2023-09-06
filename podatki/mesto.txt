@@ -1,5 +1,5 @@
 
-id,mesto,kratica_drzave
+id,ime_mesta,kratica_drzave
 
 1,Ljubljana,SI
 2,Dunaj,AT
