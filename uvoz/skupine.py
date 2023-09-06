@@ -33,7 +33,7 @@ def uvozi_podatke():
                 (id_skupine,ime_skupine,vrsta_popusta)
                 VALUES (%s, %s, %s)
             """, r)
-            print("Uvožena skupina %s z ID-jem %s" % (r[1],r[2], r[0]))
+            print("Uvožena skupina %s z ID-jem %s ki ima popust %s " % (r[1],r[2], r[0]))
     conn.commit()
 
 
