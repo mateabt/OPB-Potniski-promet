@@ -30,7 +30,7 @@ def uvozi_podatke():
         next(rd) # izpusti naslovno vrstico
         for r in rd:
             cur.execute("""
-                INSERT INTO vlaki
+                INSERT INTO vlak
                 (st_vlaka,st_prestopi,id_mesta_zacetek,id_mesta_konec)
                 VALUES (%s, %s, %s,%s)
                 """, r)
