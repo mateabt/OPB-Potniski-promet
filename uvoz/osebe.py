@@ -38,7 +38,7 @@ def uvozi_podatke():
             cur.execute("""
                 INSERT INTO oseba
                 (uporabnisko_ime,ime,priimek,datum_rojstva,drzavljanstvo,geslo,clanstvo,st_potovanja)
-                VALUES (%s, %s, %s, %s, %s, %s,%s,%s)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
             """, r)
             print("Uvožena oseba %s z uporabniškim imenom %s" % (r[1], r[0]))
     conn.commit()

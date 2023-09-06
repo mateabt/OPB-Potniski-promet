@@ -1,0 +1,27 @@
+% setdefault('naslov', 'Urejanje izleta')
+% rebase('osnova.html')
+
+
+  <form action="{{url('uredi_vlak')}}" method="POST">
+    <div class="form-row">
+      <div class="form-group col-md-3">
+        <label for="st_potovanja">Vpiši številko izleta:</label>
+        <input id="st_potovanja" name="st_potovanja" type="integer" class="form-control" required
+        oninput="this.setCustomValidity('')"
+        oninvalid="this.setCustomValidity('Obvezno polje')"
+        />
+      </div>
+    </div>
+    <div class="form-row col">
+      <button class="btn btn-info" type="submit">
+        Uredi
+      </button>
+    </div>
+  </form>
+
+  <p>Si želiš ogledati, kateri vlaki obstajajo?
+    <a href="{{url('vlak')}}" type="button" class="btn btn-info">Vlaki</a>
+  </p>
+  <p>Želiš dodati nov vlak?
+    <a href="{{url('dodaj_vlak')}}" type="button" class="btn btn-info">Dodaj vlak</a>
+  </p>
