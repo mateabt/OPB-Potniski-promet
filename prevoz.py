@@ -103,7 +103,7 @@ def registracija_post():
     zgostitev = hashGesla(geslo)
     cur.execute("""INSERT INTO oseba
                 (uporabnisko_ime,ime,priimek,datum_rojstva,geslo)
-                VALUES (%s, %s, %s, %s, %s)""", (uporabnisko_ime,ime,priimek,datum_rojstva, zgostitev))
+                VALUES (%s, %s, %s, %s, %s)""", (uporabnisko_ime,ime,priimek,datum_rojstva,zgostitev))
     conn.commit()
     response.set_cookie('uporabnisko_ime', uporabnisko_ime, path='/', secret=skrivnost)
     redirect(url('podatki_prijavljenega'))
