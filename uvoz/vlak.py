@@ -11,9 +11,9 @@ def ustvari_tabelo():
     cur.execute("""
         CREATE TABLE vlak (
             st_vlaka INTEGER PRIMARY KEY,
-            st_prestopi NUMERIC 
+            st_prestopi NUMERIC, 
             id_mesta_zacetek NUMERIC REFERENCES mesto(id),
-            id_mesta_konec NUMERIC REFERENCES mesto(id),
+            id_mesta_konec NUMERIC REFERENCES mesto(id)
             );
     """)
     conn.commit()
