@@ -12,7 +12,7 @@ def ustvari_tabelo():
         CREATE TABLE skupina (
             id_skupine INTEGER PRIMARY KEY NOT NULL,
             ime_skupine TEXT NOT NULL,
-            vrsta_popusta INTEGER 
+            vrsta_popusta INTEGER NOT NULL
         );
     """) 
     conn.commit()
@@ -32,7 +32,7 @@ def uvozi_podatke():
                 INSERT INTO skupina
                 (id_skupine, ime_skupine, vrsta_popusta)
                 VALUES (%s, %s, %s)
-                """, r)
+                """,r)
             #rid, = cur.fetchone()
             print("Uvožena skupina %s z ID-jem %s ki ima popust %s" % (r[1], r[2], r[0]))
     conn.commit()
