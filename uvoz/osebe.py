@@ -1,5 +1,5 @@
 # uvozimo ustrezne podatke za povezavo
-import auth as auth
+import auth_public as auth
 
 # uvozimo psycopg2
 import psycopg2, psycopg2.extensions, psycopg2.extras
@@ -48,7 +48,7 @@ conn = psycopg2.connect(database=auth.db, host=auth.host, user=auth.user, passwo
 cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor) 
 
 #pobrisi_tabelo()
-#ustvari_tabelo()
+ustvari_tabelo()
 #uvozi_podatke()
 
 def hashGesla(s):
@@ -67,3 +67,4 @@ def zgosti():
      return 
 
 zgosti()
+
