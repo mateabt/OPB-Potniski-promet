@@ -1,4 +1,5 @@
 # uvozimo ustrezne podatke za povezavo
+
 import auth as auth
 
 
@@ -37,5 +38,11 @@ def uvozi_podatke():
     conn.commit()
 
 
+
+
 conn = psycopg2.connect(database=auth.db, host=auth.host, user=auth.user, password=auth.password)
 cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor) 
+
+pobrisi_tabelo()
+#ustvari_tabelo()
+#uvozi_podatke()
