@@ -1,6 +1,6 @@
 # uvozimo ustrezne podatke za povezavo
 
-import auth as auth
+import auth_public as auth
 
 
 # uvozimo psycopg2
@@ -25,7 +25,7 @@ def pobrisi_tabelo():
     conn.commit()
 
 def uvozi_podatke():
-    with open("podatki/drzava.csv", encoding="utf-16", errors='ignore') as f:
+    with open("podatki/drzava.csv", encoding="utf-8", errors='ignore') as f:
         rd = csv.reader(f)
         next(rd) # izpusti naslovno vrstico
         for r in rd:
@@ -43,6 +43,6 @@ def uvozi_podatke():
 conn = psycopg2.connect(database=auth.db, host=auth.host, user=auth.user, password=auth.password)
 cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor) 
 
-pobrisi_tabelo()
+#pobrisi_tabelo()
 #ustvari_tabelo()
 #uvozi_podatke()
