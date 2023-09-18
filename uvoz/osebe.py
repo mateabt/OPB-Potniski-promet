@@ -49,7 +49,7 @@ cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
 #pobrisi_tabelo()
 #ustvari_tabelo()
-uvozi_podatke()
+#uvozi_podatke()
 
 def hashGesla(s):
     m = hashlib.sha256()
@@ -57,14 +57,14 @@ def hashGesla(s):
     return m.hexdigest()
 
 def zgosti():
-     cur.execute("SELECT geslo FROM oseba;")
-     gesla = cur.fetchall()
-     for geslo in gesla:
-         geslo1 = hashGesla(geslo)
-         cur.execute("UPDATE oseba SET geslo=%s WHERE geslo=%s", [geslo1,geslo])
-         conn.commit()
-         print('spremenjeno')
-     return 
+    cur.execute("SELECT geslo FROM oseba;")
+    gesla = cur.fetchall()
 
+    for geslo in gesla:
+        geslo_str = geslo[0]  # Extract the password from the tuple
+        geslo_hashed = hashGesla(geslo_str)
+        cur.execute("UPDATE oseba SET geslo=%s WHERE geslo=%s", (geslo_hashed, geslo_str))
+        conn.commit()
+        print('Password hashed and updated')
+        
 zgosti()
-
