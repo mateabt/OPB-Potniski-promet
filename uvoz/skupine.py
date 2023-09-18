@@ -12,7 +12,7 @@ def ustvari_tabelo():
         CREATE TABLE skupina (
             id_skupine INTEGER PRIMARY KEY NOT NULL,
             ime_skupine TEXT NOT NULL,
-            vrsta_popusta INTEGER NOT NULL
+            vrsta_popusta INTEGER 
         );
     """) 
     conn.commit()
@@ -30,7 +30,7 @@ def uvozi_podatke():
         for r in rd:
             cur.execute("""
                 INSERT INTO skupina
-                (id_skupine, ime_skupine, vrsta_popusta)
+                (id_skupine, ime_skupine,vrsta_popusta)
                 VALUES (%s, %s, %s)
                 """,r)
             #rid, = cur.fetchone()
@@ -43,4 +43,4 @@ cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
 #pobrisi_tabelo()
 #ustvari_tabelo()
-uvozi_podatke()
+#uvozi_podatke()
