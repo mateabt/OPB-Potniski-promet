@@ -18,7 +18,7 @@ def ustvari_tabelo():
         drzavljanstvo TEXT REFERENCES drzava(kratica),
         geslo TEXT NOT NULL,
         clanstvo INTEGER REFERENCES skupina(id_skupine),
-        st_potovanja INTEGER REFERENCES vlak(st_vlaka)
+        st_vlaka INTEGER REFERENCES vlak(st_vlaka)
     );
     """) 
     conn.commit()
@@ -37,7 +37,7 @@ def uvozi_podatke():
             r = [None if x == '' else x for x in r]
             cur.execute("""
                 INSERT INTO oseba
-                (uporabnisko_ime,ime,priimek,datum_rojstva,drzavljanstvo,geslo,clanstvo,st_potovanja)
+                (uporabnisko_ime,ime,priimek,datum_rojstva,drzavljanstvo,geslo,clanstvo,st_vlaka)
                 VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
             """, r)
             print("Uvožena oseba %s z uporabniškim imenom %s" % (r[1], r[0]))

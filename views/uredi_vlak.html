@@ -5,8 +5,8 @@
   <form action="{{url('uredi_vlak')}}" method="POST">
     <div class="form-row">
       <div class="form-group col-md-3">
-        <label for="st_potovanja">Vpiši številko vlaka:</label>
-        <input id="st_potovanja" name="st_potovanja" type="integer" class="form-control" required
+        <label for="st_vlaka">Vpiši številko vlaka:</label>
+        <input id="st_vlaka" name="st_vlaka" type="integer" class="form-control" required
         oninput="this.setCustomValidity('')"
         oninvalid="this.setCustomValidity('Obvezno polje')"
         />
@@ -25,5 +25,4 @@
   <p>Želiš dodati nov vlak?
     <a href="{{url('dodaj_vlak')}}" type="button" class="btn btn-info">Dodaj vlak</a>
   </p>
-  
   

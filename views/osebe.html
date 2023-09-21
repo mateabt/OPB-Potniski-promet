@@ -11,7 +11,7 @@
      <th>Članstvo</th>
      <th>Številka izleta</th>
   </thead>
-  %for (uporabnisko_ime,ime,priimek,datum_rojstva,drzavljanstvo,clanstvo,st_potovanja) in oseba:
+  %for (uporabnisko_ime,ime,priimek,datum_rojstva,drzavljanstvo,clanstvo,st_vlaka) in oseba:
     <tr>
        <td>{{uporabnisko_ime}}</td>
        <td>{{ime}}</td>
@@ -19,7 +19,7 @@
        <td>{{datum_rojstva}}</td>
        <td>{{drzavljanstvo}}</td>
        <td>{{clanstvo}}</td>
-       <td>{{st_potovanja}}</td>
+       <td>{{st_vlaka}}</td>
     </tr>
   %end
   </table>

@@ -214,6 +214,10 @@ def uredi_drzavljanstvo_post():
         return template('uredi_drzavljanstvo.html', drzavljanstvo=drzavljanstvo,
                         napaka='Zgodila se je napaka: %s' % ex)
     redirect(url('podatki_prijavljenega'))
+    
+    
+    
+   
 
 ##################################
 # osebe

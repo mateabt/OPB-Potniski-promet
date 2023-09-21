@@ -7,7 +7,7 @@
           <th>Moji podatki</th>
           <th>Uredi</th>
       </thead>
-      % for (uporabnisko_ime,ime,priimek,datum_rojstva,ime_drzave,geslo,ime_skupine,st_potovanja) in oseba:
+      % for (uporabnisko_ime,ime,priimek,datum_rojstva,ime_drzave,geslo,ime_skupine,st_vlaka) in oseba:
         <tr>
             <td>Uporabniško ime</td>
             <td>{{uporabnisko_ime}}</td>
@@ -40,7 +40,7 @@
         </tr>
         <tr>
             <td>Vlak</td>
-            <td>{{st_potovanja}}</td>
+            <td>{{st_vlaka}}</td>
             <td><a href="{{url('/uredi_vlak')}}">Spremeni vlak</a></td>
         </tr>
       % end
