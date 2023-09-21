@@ -158,7 +158,8 @@ def podatki_prijavljenega():
             
                 WHERE uporabnisko_ime=%s;""",[uporabnisko_ime])
     return template('podatki_prijavljenega.html', oseba=cur)
-
+#############################################################
+# clanstvo
 def najdi_id_skupine():
     cur.execute("SELECT id_skupine,ime_skupine FROM skupina;")
     return cur.fetchall()
@@ -190,7 +191,8 @@ def uredi_clanstvo_post():
 def najdi_kratico():
     cur.execute("SELECT kratica,ime_drzave FROM drzava;")
     return cur.fetchall()
-
+###################################################
+# drzavljanstvo
 @get('/uredi_drzavljanstvo')
 def uredi_drzavljanstvo():
     uporabnik = preveriUporabnika()
@@ -216,6 +218,7 @@ def uredi_drzavljanstvo_post():
     redirect(url('podatki_prijavljenega'))
     
     ########################
+    #vlak
 @get('/uredi_vlak')
 def uredi_vlak():
     uporabnik = preveriUporabnika()
