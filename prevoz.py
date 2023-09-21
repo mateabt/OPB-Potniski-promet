@@ -150,11 +150,11 @@ def podatki_prijavljenega():
     if uporabnik is None: 
         return
     uporabnisko_ime = request.get_cookie("uporabnisko_ime", secret=skrivnost)
-    cur.execute("""SELECT uporabnisko_ime,ime,priimek,datum_rojstva,ime_drzave,geslo,ime_skupine,oseba.st_potovanja
+    cur.execute("""SELECT uporabnisko_ime,ime,priimek,datum_rojstva,ime_drzave,geslo,ime_skupine,oseba.st_vlaka
                 FROM oseba
                 LEFT JOIN drzava ON oseba.drzavljanstvo=drzava.kratica
                 LEFT JOIN skupina ON oseba.clanstvo=skupina.id_skupine
-                LEFT JOIN vlak ON oseba.st_potovanja=vlak.st_vlaka
+                LEFT JOIN vlak ON oseba.st_vlaka=vlak.st_vlaka
             
                 WHERE uporabnisko_ime=%s;""",[uporabnisko_ime])
     return template('podatki_prijavljenega.html', oseba=cur)
@@ -227,7 +227,7 @@ def osebe():
     uporabnik = preveriUporabnika()
     if uporabnik is None: 
         return
-    cur.execute("""SELECT uporabnisko_ime,ime,priimek,datum_rojstva,drzavljanstvo,clanstvo,st_potovanja 
+    cur.execute("""SELECT uporabnisko_ime,ime,priimek,datum_rojstva,drzavljanstvo,clanstvo,st_vlaka
                 FROM oseba ORDER BY priimek, ime""")
     return template('osebe.html', oseba=cur)
 
