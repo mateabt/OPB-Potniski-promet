@@ -154,7 +154,7 @@ def podatki_prijavljenega():
                 FROM oseba
                 LEFT JOIN drzava ON oseba.drzavljanstvo=drzava.kratica
                 LEFT JOIN skupina ON oseba.clanstvo=skupina.id_skupine
-                LEFT JOIN potovanje ON oseba.st_potovanja=vlak.st_vlaka
+                LEFT JOIN vlak ON oseba.st_potovanja=vlak.st_vlaka
             
                 WHERE uporabnisko_ime=%s;""",[uporabnisko_ime])
     return template('podatki_prijavljenega.html', oseba=cur)

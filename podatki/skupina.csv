@@ -1,6 +1,6 @@
-id_skupine,ime_skupine,vrsta_popusta
-1,Upokojenec,50
-2,Študent,25
-3,Otrok do 5 let,100
-4,Srednolšolec,30
-7,Osnovošolec,40
+id_skupine,ime_skupine
+1,Upokojenec
+2,Študent
+3,Otrok do 5 let
+4,Srednolšolec
+7,Osnovošolec

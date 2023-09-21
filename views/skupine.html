@@ -1,0 +1,30 @@
+% setdefault('naslov', 'Skupine')
+% rebase('osnova.html', izbrani_zavihek='skupine')
+
+% include('orodna_vrstica.html', povezava1='uredi_skupino', napis1="Uredi skupino", povezava2='dodaj_skupino_post', napis2="Dodaj skupino")
+
+  <table class="table table-hover">
+  <thead class="thead-light">
+     <th width="15%">ID</th>
+     <th width="40%">Ime skupine</th>
+     <th width="35%">Oglej si ...</th>
+  </thead>
+  %for (id_skupine, ime_skupine,vrsta_popusta) in skupine:
+    <tr>
+       <td>{{id_skupine}}</td>
+       <td>{{ime_skupine}}</td>
+       <td>{{vrsta_popusta}}</td>
+       <td>
+         <div>
+           <form action="clani_skupine/{{id_skupine}}" method="post">
+             <a href="{{url('clani_skupine', x=id_skupine)}}" onclick="this.parentElement.submit()">... člane skupine {{id_skupine}}</a>
+           </form>
+         </div>
+       </td>
+    </tr>
+  %end
+  </table>
+
+<p>Želiš izbrisati katero skupino?
+  <a href="{{url('izbrisi_skupino')}}" type="button" class="btn btn-info">Brisanje skupin</a>
+</p>

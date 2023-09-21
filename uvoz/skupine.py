@@ -12,7 +12,6 @@ def ustvari_tabelo():
         CREATE TABLE skupina (
             id_skupine INTEGER PRIMARY KEY NOT NULL,
             ime_skupine TEXT NOT NULL,
-            vrsta_popusta INTEGER 
         );
     """) 
     conn.commit()
@@ -30,11 +29,11 @@ def uvozi_podatke():
         for r in rd:
             cur.execute("""
                 INSERT INTO skupina
-                (id_skupine, ime_skupine,vrsta_popusta)
-                VALUES (%s, %s, %s)
+                (id_skupine, ime_skupine)
+                VALUES (%s, %s)
                 """,r)
             #rid, = cur.fetchone()
-            print("Uvožena skupina %s z ID-jem %s ki ima popust %s" % (r[1], r[2], r[0]))
+            print("Uvožena skupina %s z ID-jem %s " % (r[1], r[0]))
     conn.commit()
 
 
@@ -42,5 +41,5 @@ conn = psycopg2.connect(database=auth.db, host=auth.host, user=auth.user, passwo
 cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor) 
 
 #pobrisi_tabelo()
-#ustvari_tabelo()
+ustvari_tabelo()
 #uvozi_podatke()
