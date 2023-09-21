@@ -9,7 +9,7 @@
      <th>Datum rojstva</th>
      <th>Državljanstvo</th>
      <th>Članstvo</th>
-     <th>Številka potovanja</th>
+     <th>Številka izleta</th>
   </thead>
   %for (uporabnisko_ime,ime,priimek,datum_rojstva,drzavljanstvo,clanstvo,st_potovanja) in oseba:
     <tr>
@@ -19,9 +19,15 @@
        <td>{{datum_rojstva}}</td>
        <td>{{drzavljanstvo}}</td>
        <td>{{clanstvo}}</td>
-       <td>{{st_ptovanja}}</td>
+       <td>{{st_potovanja}}</td>
     </tr>
   %end
   </table>
+
+  <!--
+  <p>
+    <a href="{{url('skupine')}}" type="button" class="btn btn-info">Skupine</a>
+  </p>
+  -->
 
  

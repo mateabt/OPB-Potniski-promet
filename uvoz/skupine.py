@@ -41,5 +41,5 @@ conn = psycopg2.connect(database=auth.db, host=auth.host, user=auth.user, passwo
 cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor) 
 
 #pobrisi_tabelo()
-ustvari_tabelo()
+#ustvari_tabelo()
 #uvozi_podatke()
