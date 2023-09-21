@@ -1,0 +1,63 @@
+% setdefault('naslov', 'Dodajanje vlaka')
+% rebase('osnova.html')
+
+%if napaka:
+  <p class="opozorilo">{{napaka}}</p>
+%end
+
+<form action="{{url('dodaj_vlak')}}" method="POST">
+  <div class="form-row">
+    <div class="form-group col-md-3">
+      <label for="st_vlaka">Št. vlaka:</label>
+      <input id="st_vlaka" name="st_vlaka" type="integer" class="form-control" required
+        oninput="this.setCustomValidity('')"
+        oninvalid="this.setCustomValidity('Obvezno polje')"
+        />
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-3">
+      <label for="st_prestopi">Št. prestopi:</label>
+      <input id="st_prestopi" name="st_prestopi" type="integer" class="form-control" required
+        oninput="this.setCustomValidity('')"
+        oninvalid="this.setCustomValidity('Obvezno polje')"
+        />
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-3">
+      <label for="id_mesta_zacetek">Zacetno mesto:</label>
+      <select name="id_mesta_zacetek" id="id_mesta_zacetek"
+        type="integer" class="form-control" required
+        oninput="this.setCustomValidity('')"
+        oninvalid="this.setCustomValidity('Obvezno polje')"
+        >
+      % for id,ime_mesta in id_mesta_zacetek:
+          <option value='{{id}}' {{'selected' if id==id_mesta_zacetek else ''}}>{{ime_mesta_zacetek}}</option>
+      % end  
+    </select>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col-md-3">
+      <label for="id_mesta_konec">Koncno mesto:</label>
+      <select name="id_mesta_konec" id="id_mesta_konec"
+        type="integer" class="form-control" required
+        oninput="this.setCustomValidity('')"
+        oninvalid="this.setCustomValidity('Obvezno polje')"
+        >
+      % for id,ime_mesta in id_mesta_konec:
+          <option value='{{id}}' {{'selected' if id==id_mesta_konec else ''}}>{{ime_mesta_konec}}</option>
+      % end  
+    </select>
+    </div>
+  </div>
+  
+  
+  <div class="form-row col">
+    <button class="btn btn-info" type="submit">
+      Dodaj nov vlak
+    </button>
+  </div>
+</form>
