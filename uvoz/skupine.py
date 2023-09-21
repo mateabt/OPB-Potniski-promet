@@ -11,7 +11,7 @@ def ustvari_tabelo():
     cur.execute("""
         CREATE TABLE skupina (
             id_skupine INTEGER PRIMARY KEY NOT NULL,
-            ime_skupine TEXT NOT NULL,
+            ime_skupine TEXT NOT NULL
         );
     """) 
     conn.commit()
