@@ -219,6 +219,12 @@ def uredi_drzavljanstvo_post():
     
     ########################
     #vlak
+def najdi_vlak():
+    cur.execute("SELECT st_vlaka,st_prestopi,id_mesta_zacetek,id_mesta_konec FROM vlak;")
+    return cur.fetchall()
+  
+    
+    
 @get('/uredi_vlak')
 def uredi_vlak():
     uporabnik = preveriUporabnika()
