@@ -143,7 +143,7 @@ def odjava_get():
 
 ##################################
 # podatki prijavljenega
-
+###################################
 @get('/podatki_prijavljenega')
 def podatki_prijavljenega():
     uporabnik = preveriUporabnika()
@@ -160,6 +160,7 @@ def podatki_prijavljenega():
     return template('podatki_prijavljenega.html', oseba=cur)
 #############################################################
 # clanstvo
+#############################################################
 def najdi_id_skupine():
     cur.execute("SELECT id_skupine,ime_skupine FROM skupina;")
     return cur.fetchall()
@@ -193,6 +194,7 @@ def najdi_kratico():
     return cur.fetchall()
 ###################################################
 # drzavljanstvo
+###################################################
 @get('/uredi_drzavljanstvo')
 def uredi_drzavljanstvo():
     uporabnik = preveriUporabnika()
@@ -217,9 +219,9 @@ def uredi_drzavljanstvo_post():
                         napaka='Zgodila se je napaka: %s' % ex)
     redirect(url('podatki_prijavljenega'))
     
-    
+ #####################################################################################   
     #osebe 
-
+######################################################################################
 @get('/osebe')
 def osebe():
     uporabnik = preveriUporabnika()
@@ -229,9 +231,9 @@ def osebe():
                 FROM oseba ORDER BY priimek, ime""")
     return template('osebe.html', oseba=cur)
 
-
+######################################
 #vlaki
-
+######################################
 @get('/vlak')
 def vlak():
     uporabnik = preveriUporabnika()
@@ -248,9 +250,9 @@ def vlak():
     return template('vlak.html', vlak=cur)
 
     
-#    ########################
+#########################
 #skupine
-
+############################
 @get('/skupine')
 def skupine():
     uporabnik = preveriUporabnika()
@@ -342,9 +344,9 @@ def izbrisi_skupino_post():
         return template('izbrisi_skupino.html', id_skupine=id_skupine,
                         napaka='Zgodila se je napaka: %s' % ex, skupine=najdi_id_skupine())
     redirect(url('skupine'))
-
+#######################
 #vlaki
-
+########################
 def najdi_vlak():
     cur.execute("SELECT st_vlaka,st_prestopi,id_mesta_zacetek,id_mesta_konec,cas_odhoda,cas_prihoda FROM vlak;")
     return cur.fetchall()
@@ -405,27 +407,40 @@ def dodaj_vlak_post():
                         napaka='Zgodila se je napaka: %s' % ex)
     redirect(url('vlak'))
 
-
+#######################
 #cena
-@get('/osebe')
-def osebe():
-    uporabnik = preveriUporabnika()
-    if uporabnik is None: 
-        return
-    cur.execute("""SELECT uporabnisko_ime,ime,priimek,datum_rojstva,drzavljanstvo,clanstvo,st_vlaka
-                FROM oseba ORDER BY priimek, ime""")
-    return template('osebe.html', oseba=cur)
-
+##################
 
 
 @get('/cena')
 def cena():
     uporabnik = preveriUporabnika()
-    if uporabnik is None: 
+    if uporabnik is None:
         return
-    cur.execute("""SELECT id, cena_enosmerne, cena_povratne   
-        FROM cena""")
+
+    min_price = request.query.get('min_price', None)  # Get the minimum price for cena_enosmerne
+
+    if min_price is not None:
+        # Filter the prices based on the minimum price for cena_enosmerne
+        cur.execute("""
+            SELECT id, cena_enosmerne, cena_povratne
+            FROM cena
+            WHERE cena_enosmerne >= %s
+        """, (min_price,))
+    else:
+        # If no minimum price for cena_enosmerne is specified, fetch all prices
+        cur.execute("""
+            SELECT id, cena_enosmerne, cena_povratne   
+            FROM cena
+        """)
     return template('cena.html', cena=cur)
+
+
+
+
+
+
+
 
 ######################################################################
 # Glavni program
