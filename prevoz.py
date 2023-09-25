@@ -223,7 +223,7 @@ def najdi_vlak():
     cur.execute("SELECT st_vlaka,st_prestopi,id_mesta_zacetek,id_mesta_konec FROM vlak;")
     return cur.fetchall()
   
-    
+   # 
     
 @get('/uredi_vlak')
 def uredi_vlak():
@@ -253,32 +253,32 @@ def najdi_id_mesta():
     cur.execute("SELECT id, ime_mesta FROM mesto;")
     return cur.fetchall()
 
-#@get('/dodaj_izlet')
-#def dodaj_izlet():
-#    uporabnik = preveriUporabnika()
-#    if uporabnik is None: 
-#        return
-#    return template('dodaj_vlak.html', st_vlaka='', st_prestopi='', id_mesta_zacetek=najdi_id_mesta(), id_mesta_konec=najdi_id_mesta(), napaka=None)
-#
-#@post('/dodaj_vlak')
-#def dodaj_vlak_post():
-#    uporabnik = preveriUporabnika()
-#    if uporabnik is None: 
-#        return
-#    st_vlaka = request.forms.st_vlaka
-#    st_prestopi = request.forms.st_prestopi
-#    id_mesta_zacetek = request.forms.id_mesta_zacetek
-#    id_mesta_konec = request.forms.id_mesta_konec
-#    try:
-#        cur.execute("INSERT INTO vlak (st_vlaka, st_prestopi, id_mesta_zacetek, id_mesta_konec) VALUES (%s, %s, %s, %s)",
-#                    (st_vlaka, st_prestopi, id_mesta_zacetek, id_mesta_konec))
-#        conn.commit()
-#    except Exception as ex:
-#        conn.rollback()
-#        return template('dodaj_vlak.html', st_vlaka=st_vlaka, st_prestopi=st_prestopi, id_mesta_zacetek=id_mesta_zacetek,id_mesta_konec=id_mesta_konec,
-#                        napaka='Zgodila se je napaka: %s' % ex)
-#    redirect(url('vlak'))    
-#    
+@get('/dodaj_vlak')
+def dodaj_izlet():
+    uporabnik = preveriUporabnika()
+    if uporabnik is None: 
+        return
+    return template('dodaj_vlak.html', st_vlaka='', st_prestopi='', id_mesta_zacetek=najdi_id_mesta(), id_mesta_konec=najdi_id_mesta(), napaka=None)
+
+@post('/dodaj_vlak')
+def dodaj_vlak_post():
+    uporabnik = preveriUporabnika()
+    if uporabnik is None: 
+        return
+    st_vlaka = request.forms.st_vlaka
+    st_prestopi = request.forms.st_prestopi
+    id_mesta_zacetek = request.forms.id_mesta_zacetek
+    id_mesta_konec = request.forms.id_mesta_konec
+    try:
+        cur.execute("INSERT INTO vlak (st_vlaka, st_prestopi, id_mesta_zacetek, id_mesta_konec) VALUES (%s, %s, %s, %s)",
+                    (st_vlaka, st_prestopi, id_mesta_zacetek, id_mesta_konec))
+        conn.commit()
+    except Exception as ex:
+        conn.rollback()
+        return template('dodaj_vlak.html', st_vlaka=st_vlaka, st_prestopi=st_prestopi, id_mesta_zacetek=id_mesta_zacetek,id_mesta_konec=id_mesta_konec,
+                        napaka='Zgodila se je napaka: %s' % ex)
+    redirect(url('vlak'))    
+    
     
    
 

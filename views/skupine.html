@@ -9,11 +9,10 @@
      <th width="40%">Ime skupine</th>
      <th width="35%">Oglej si ...</th>
   </thead>
-  %for (id_skupine, ime_skupine,vrsta_popusta) in skupine:
+  %for (id_skupine, ime_skupine) in skupine:
     <tr>
        <td>{{id_skupine}}</td>
        <td>{{ime_skupine}}</td>
-       <td>{{vrsta_popusta}}</td>
        <td>
          <div>
            <form action="clani_skupine/{{id_skupine}}" method="post">
