@@ -9,32 +9,32 @@ import csv
 
 def ustvari_tabelo():
     cur.execute("""
-        CREATE TABLE cene (
-            id INTEGER PRIMARY KEY NOT NULL,
-            cena_enosmerne TEXT NOT NULL,
-            cena_povratne TEXT NOT NULL
-        );
-    """) 
+        CREATE TABLE cena (
+            id NUMERIC PRIMARY KEY,
+            ime_mesta TEXT NOT NULL,
+            kratica_drzave TEXT NOT NULL REFERENCES drzava(kratica)
+            );
+    """)
     conn.commit()
 
 def pobrisi_tabelo():
     cur.execute("""
-        DROP TABLE cene;
+        DROP TABLE cena;
     """)
     conn.commit()
 
 def uvozi_podatke():
-    with open("podatki/skupina.csv", encoding="utf-8", errors='ignore') as f:
+    with open("podatki/cena.csv", encoding="utf-8", errors='ignore') as f:
         rd = csv.reader(f)
         next(rd) # izpusti naslovno vrstico
         for r in rd:
             cur.execute("""
-                INSERT INTO skupina
-                (id_skupine, ime_skupine)
-                VALUES (%s, %s)
-                """,r)
-            #rid, = cur.fetchone()
-            print("Uvožena skupina %s z ID-jem %s " % (r[1], r[0]))
+                INSERT INTO cena
+                (id, cena_enosmerna, cena_povratna)
+                VALUES (%s, %s, %s)
+                """, r)
+            # rid, = cur.fetchone()
+            print("Uvožen vlak z ID-jem %s ki ima ceno enosmerne %s ,povratne %s" % (r[1], r[2], r[0]))
     conn.commit()
 
 
