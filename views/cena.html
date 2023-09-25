@@ -18,9 +18,15 @@
     </tbody>
 </table>
 
-<!-- Filter form -->
-<form action="/cena" method="GET">
-    <label for="min_price">Minimalna cena enosmerne:</label>
-    <input type="number" id="min_price" name="min_price" min="0" step="0.01">
-    <button type="submit">Filter</button>
+<!-- Filtriranje cene enosmerne -->
+<!-- Filtriranje cene enosmerne in povratne -->
+<form action="/cena" method="get">
+    <label for="max_price_enosmerna">Maximum enosmerne cene:</label>
+    <input type="number" id="max_price_enosmerna" name="max_price_enosmerna" min="0" step="0.01">
+    
+    <label for="max_price_povratna">Maksimum povratne cene:</label>
+    <input type="number" id="max_price_povratna" name="max_price_povratna" min="0" step="0.01">
+    
+    <button type="submit" class="btn btn-primary">Filtriraj</button>
 </form>
+
