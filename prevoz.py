@@ -217,14 +217,133 @@ def uredi_drzavljanstvo_post():
                         napaka='Zgodila se je napaka: %s' % ex)
     redirect(url('podatki_prijavljenega'))
     
-    ########################
-    #vlak
+    
+    #osebe 
+
+@get('/osebe')
+def osebe():
+    uporabnik = preveriUporabnika()
+    if uporabnik is None: 
+        return
+    cur.execute("""SELECT uporabnisko_ime,ime,priimek,datum_rojstva,drzavljanstvo,clanstvo,st_vlaka
+                FROM oseba ORDER BY priimek, ime""")
+    return template('osebe.html', oseba=cur)
+
+
+#vlaki
+
+@get('/vlak')
+def vlak():
+    uporabnik = preveriUporabnika()
+    if uporabnik is None: 
+        return
+    cur.execute("""SELECT vlak.st_vlaka, vlak.st_prestopi, zacetek.ime_mesta AS ime_mesta_zacetek, konec.ime_mesta AS ime_mesta_konec
+                    FROM vlak
+                    JOIN mesto AS zacetek ON vlak.id_mesta_zacetek = zacetek.id
+                    JOIN mesto AS konec ON vlak.id_mesta_konec = konec.id;""")
+    return template('vlak.html', vlak=cur)
+    
+#    ########################
+#skupine
+
+@get('/skupine')
+def skupine():
+    uporabnik = preveriUporabnika()
+    if uporabnik is None: 
+        return
+    cur.execute("SELECT * FROM skupina ORDER BY id_skupine;")
+    return template('skupine.html', skupine=cur)
+
+@get('/dodaj_skupino')
+def dodaj_skupino():
+    uporabnik = preveriUporabnika()
+    if uporabnik is None: 
+        return
+    return template('dodaj_skupino.html', id_skupine='', ime_skupine='', napaka=None)
+
+@post('/dodaj_skupino')
+def dodaj_skupino_post():
+    uporabnik = preveriUporabnika()
+    if uporabnik is None: 
+        return
+    id_skupine = request.forms.id_skupine
+    ime_skupine = request.forms.ime_skupine
+    try:
+        cur.execute("INSERT INTO skupina (id_skupine, ime_skupine) VALUES (%s, %s)",
+                    (id_skupine, ime_skupine))
+        conn.commit()
+    except Exception as ex:
+        conn.rollback()
+        return template('dodaj_skupino.html', id_skupine=id_skupine, ime_skupine=ime_skupine,
+                        napaka='Zgodila se je napaka: %s' % ex)
+    redirect(url('skupine'))
+
+@get('/clani_skupine/<x:int>/')
+def clani_skupine(x):
+    uporabnik = preveriUporabnika()
+    if uporabnik is None: 
+        return
+    cur.execute("""SELECT uporabnisko_ime,ime,priimek,datum_rojstva,drzavljanstvo,clanstvo,st_izleta 
+                FROM oseba WHERE clanstvo = %s""", [x])
+    return template('clani_skupine.html', x=x, oseba=cur)
+
+def najdi_id_skupine():
+    cur.execute("SELECT * FROM skupina;")
+    return cur.fetchall()
+
+@get('/uredi_skupino')
+def uredi_skupino():
+    uporabnik = preveriUporabnika()
+    if uporabnik is None: 
+        return
+    return template('uredi_skupino.html', id_skupine='', ime_skupine='', napaka=None, skupine = najdi_id_skupine())
+
+@post('/uredi_skupino')
+def uredi_skupino_post():
+    uporabnik = preveriUporabnika()
+    if uporabnik is None: 
+        return
+    id_skupine = request.forms.id_skupine
+    ime_skupine = request.forms.ime_skupine
+    try:
+        cur.execute("UPDATE skupina SET ime_skupine=%s WHERE id_skupine=%s",
+                    (ime_skupine, id_skupine))
+        conn.commit()
+    except Exception as ex:
+        conn.rollback()
+        return template('uredi_skupino.html', id_skupine=id_skupine, ime_skupine=ime_skupine,
+                        napaka='Zgodila se je napaka: %s' % ex)
+    redirect(url('skupine'))
+
+@get('/izbrisi_skupino')
+def izbrisi_skupino():
+    uporabnik = preveriUporabnika()
+    if uporabnik is None: 
+        return
+    return template('izbrisi_skupino.html', id_skupine='', napaka=None, skupine = najdi_id_skupine())
+
+@post('/izbrisi_skupino')
+def izbrisi_skupino_post():
+    uporabnik = preveriUporabnika()
+    if uporabnik is None: 
+        return
+    id_skupine = request.forms.id_skupine
+    try:
+        cur.execute("UPDATE oseba SET clanstvo = NULL WHERE clanstvo = %s", [id_skupine])
+        cur.execute("DELETE FROM skupina WHERE id_skupine= %s", [id_skupine])
+        conn.commit()
+    except Exception as ex:
+        conn.rollback()
+        return template('izbrisi_skupino.html', id_skupine=id_skupine,
+                        napaka='Zgodila se je napaka: %s' % ex, skupine=najdi_id_skupine())
+    redirect(url('skupine'))
+
+#vlaki
+
 def najdi_vlak():
     cur.execute("SELECT st_vlaka,st_prestopi,id_mesta_zacetek,id_mesta_konec FROM vlak;")
     return cur.fetchall()
-  
-   # 
-    
+
 @get('/uredi_vlak')
 def uredi_vlak():
     uporabnik = preveriUporabnika()
@@ -254,11 +373,11 @@ def najdi_id_mesta():
     return cur.fetchall()
 
 @get('/dodaj_vlak')
-def dodaj_izlet():
+def dodaj_vlak():
     uporabnik = preveriUporabnika()
     if uporabnik is None: 
         return
-    return template('dodaj_vlak.html', st_vlaka='', st_prestopi='', id_mesta_zacetek=najdi_id_mesta(), id_mesta_konec=najdi_id_mesta(), napaka=None)
+    return template('dodaj_vlak.html', st_vlaka='', st_prestopi='', id_mesta_zacetek=najdi_id_mesta(),id_mesta_konec=najdi_id_mesta(), napaka=None)
 
 @post('/dodaj_vlak')
 def dodaj_vlak_post():
@@ -268,31 +387,19 @@ def dodaj_vlak_post():
     st_vlaka = request.forms.st_vlaka
     st_prestopi = request.forms.st_prestopi
     id_mesta_zacetek = request.forms.id_mesta_zacetek
-    id_mesta_konec = request.forms.id_mesta_konec
+    id_mesta_konec=request.forms.id_mesta_konec
     try:
-        cur.execute("INSERT INTO vlak (st_vlaka, st_prestopi, id_mesta_zacetek, id_mesta_konec) VALUES (%s, %s, %s, %s)",
-                    (st_vlaka, st_prestopi, id_mesta_zacetek, id_mesta_konec))
+        cur.execute("INSERT INTO vlak (st_vlaka, st_prestopi, id_mesta_zacetek,id_mesta_konec) VALUES (%s, %s, %s, %s)",
+                    (st_vlaka, st_prestopi, id_mesta_zacetek,id_mesta_konec))
         conn.commit()
     except Exception as ex:
         conn.rollback()
-        return template('dodaj_vlak.html', st_vlaka=st_vlaka, st_prestopi=st_prestopi, id_mesta_zacetek=id_mesta_zacetek,id_mesta_konec=id_mesta_konec,
+        return template('dodaj_vlak.html', st_vlaka=st_vlaka, st_prestopi=st_prestopi, id_mesta_zacetek=id_mesta_zacetek, id_mesta_konec=id_mesta_konec,
                         napaka='Zgodila se je napaka: %s' % ex)
-    redirect(url('vlak'))    
-    
-    
-   
+    redirect(url('vlak'))
 
-##################################
-# osebe
 
-@get('/osebe')
-def osebe():
-    uporabnik = preveriUporabnika()
-    if uporabnik is None: 
-        return
-    cur.execute("""SELECT uporabnisko_ime,ime,priimek,datum_rojstva,drzavljanstvo,clanstvo,st_vlaka
-                FROM oseba ORDER BY priimek, ime""")
-    return template('osebe.html', oseba=cur)
+
 
 
 ######################################################################
