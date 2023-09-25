@@ -237,11 +237,16 @@ def vlak():
     uporabnik = preveriUporabnika()
     if uporabnik is None: 
         return
-    cur.execute("""SELECT vlak.st_vlaka, vlak.st_prestopi, zacetek.ime_mesta AS ime_mesta_zacetek, konec.ime_mesta AS ime_mesta_konec
-                    FROM vlak
-                    JOIN mesto AS zacetek ON vlak.id_mesta_zacetek = zacetek.id
-                    JOIN mesto AS konec ON vlak.id_mesta_konec = konec.id;""")
+    cur.execute("""SELECT vlak.st_vlaka, vlak.st_prestopi, 
+           zacetek.ime_mesta AS ime_mesta_zacetek, 
+           konec.ime_mesta AS ime_mesta_konec, 
+           vlak.cas_odhoda, 
+           vlak.cas_prihoda
+        FROM vlak
+        JOIN mesto AS zacetek ON vlak.id_mesta_zacetek = zacetek.id
+        JOIN mesto AS konec ON vlak.id_mesta_konec = konec.id;""")
     return template('vlak.html', vlak=cur)
+
     
 #    ########################
 #skupine
@@ -341,7 +346,7 @@ def izbrisi_skupino_post():
 #vlaki
 
 def najdi_vlak():
-    cur.execute("SELECT st_vlaka,st_prestopi,id_mesta_zacetek,id_mesta_konec FROM vlak;")
+    cur.execute("SELECT st_vlaka,st_prestopi,id_mesta_zacetek,id_mesta_konec,cas_odhoda,cas_prihoda FROM vlak;")
     return cur.fetchall()
 
 @get('/uredi_vlak')
@@ -377,7 +382,7 @@ def dodaj_vlak():
     uporabnik = preveriUporabnika()
     if uporabnik is None: 
         return
-    return template('dodaj_vlak.html', st_vlaka='', st_prestopi='', id_mesta_zacetek=najdi_id_mesta(),id_mesta_konec=najdi_id_mesta(), napaka=None)
+    return template('dodaj_vlak.html', st_vlaka='', st_prestopi='', id_mesta_zacetek=najdi_id_mesta(),id_mesta_konec=najdi_id_mesta(),cas_odhoda='',cas_prihoda='', napaka=None)
 
 @post('/dodaj_vlak')
 def dodaj_vlak_post():
@@ -388,13 +393,15 @@ def dodaj_vlak_post():
     st_prestopi = request.forms.st_prestopi
     id_mesta_zacetek = request.forms.id_mesta_zacetek
     id_mesta_konec=request.forms.id_mesta_konec
+    cas_odhoda=request.forms.cas_odhoda
+    cas_prihoda=request.forms.cas_prihoda
     try:
-        cur.execute("INSERT INTO vlak (st_vlaka, st_prestopi, id_mesta_zacetek,id_mesta_konec) VALUES (%s, %s, %s, %s)",
-                    (st_vlaka, st_prestopi, id_mesta_zacetek,id_mesta_konec))
+        cur.execute("INSERT INTO vlak (st_vlaka, st_prestopi, id_mesta_zacetek,id_mesta_konec,cas_odhoda,cas_prihoda) VALUES (%s, %s, %s, %s,%s,%s)",
+                    (st_vlaka, st_prestopi, id_mesta_zacetek,id_mesta_konec,cas_odhoda,cas_prihoda))
         conn.commit()
     except Exception as ex:
         conn.rollback()
-        return template('dodaj_vlak.html', st_vlaka=st_vlaka, st_prestopi=st_prestopi, id_mesta_zacetek=id_mesta_zacetek, id_mesta_konec=id_mesta_konec,
+        return template('dodaj_vlak.html', st_vlaka=st_vlaka, st_prestopi=st_prestopi, id_mesta_zacetek=id_mesta_zacetek, id_mesta_konec=id_mesta_konec,cas_odhoda=cas_odhoda,cas_prihoda=cas_prihoda,
                         napaka='Zgodila se je napaka: %s' % ex)
     redirect(url('vlak'))
 

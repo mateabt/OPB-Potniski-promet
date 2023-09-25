@@ -13,7 +13,9 @@ def ustvari_tabelo():
             st_vlaka INTEGER PRIMARY KEY,
             st_prestopi NUMERIC, 
             id_mesta_zacetek NUMERIC REFERENCES mesto(id),
-            id_mesta_konec NUMERIC REFERENCES mesto(id)
+            id_mesta_konec NUMERIC REFERENCES mesto(id),
+            cas_odhoda TIME without time zone,
+            cas_prihoda TIME without time zone
             );
     """)
     conn.commit()
@@ -31,8 +33,8 @@ def uvozi_podatke():
         for r in rd:
             cur.execute("""
                 INSERT INTO vlak
-                (st_vlaka,st_prestopi,id_mesta_zacetek,id_mesta_konec)
-                VALUES (%s, %s, %s,%s)
+                (st_vlaka,st_prestopi,id_mesta_zacetek,id_mesta_konec,cas_odhoda,cas_prihoda)
+                VALUES (%s, %s, %s,%s,%s,%s)
                 """, r)
             # rid, = cur.fetchone()
             print("Uvožen vlak z ID-jem %s" % (r[0]))

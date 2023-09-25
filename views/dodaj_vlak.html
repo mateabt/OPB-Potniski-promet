@@ -15,6 +15,7 @@
         />
     </div>
   </div>
+
   <div class="form-row">
     <div class="form-group col-md-3">
       <label for="st_prestopi">Št. prestopi:</label>
@@ -24,6 +25,7 @@
         />
     </div>
   </div>
+
   <div class="form-row">
     <div class="form-group col-md-3">
       <label for="id_mesta_zacetek">Zacetno mesto:</label>
@@ -54,8 +56,29 @@
     </div>
   </div>
   
+ <div class="form-row">
+    <div class="form-group col-md-3">
+        <label for="cas_odhoda">Čas odhoda:</label>
+        <input id="cas_odhoda" name="cas_odhoda" type="time" class="form-control" required
+            oninput="this.setCustomValidity('')" 
+            oninvalid="this.setCustomValidity('Obvezno polje')" 
+        />
+    </div>
+</div>
+
+ <div class="form-row">
+  <div class="form-group col-md-3">
+      <label for="cas_prihoda">Čas prihoda:</label>
+      <input id="cas_prihoda" name="cas_prihoda" type="time" class="form-control" required
+          oninput="this.setCustomValidity('')" 
+          oninvalid="this.setCustomValidity('Obvezno polje')" 
+      />
+  </div>
+</div>
+
+
   
-  <div class="form-row col">
+ <div class="form-row col">
     <button class="btn btn-info" type="submit">
       Dodaj nov vlak
     </button>

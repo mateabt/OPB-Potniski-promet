@@ -7,13 +7,18 @@
      <th>Št. prestopi</th>
      <th>Začetno mesto</th>
      <th>Končno mesto</th>
+     <th>Čas odhoda</th>
+     <th>Čas prihoda</th>
   </tr>
-  %for (st_vlaka,st_prestopi,ime_mesta_zacetek,ime_mesta_konec) in vlak:
+  %for (st_vlaka,st_prestopi,ime_mesta_zacetek,ime_mesta_konec,cas_odhoda,cas_prihoda) in vlak:
     <tr>
        <td>{{st_vlaka}}</td>
        <td>{{st_prestopi}}</td>
        <td>{{ime_mesta_zacetek}}</td>
        <td>{{ime_mesta_konec}}</td>
+       <td>{{cas_odhoda}}</td>
+       <td>{{cas_prihoda}}</td>
+
     </tr>
   %end
   </table>
