@@ -33,7 +33,7 @@
         oninvalid="this.setCustomValidity('Obvezno polje')"
         >
       % for id,ime_mesta in id_mesta_zacetek:
-          <option value='{{id}}' {{'selected' if id==id_mesta_zacetek else ''}}>{{ime_mesta_zacetek}}</option>
+          <option value='{{id}}' {{'selected' if id==id_mesta_zacetek else ''}}>{{ime_mesta}}</option>
       % end  
     </select>
     </div>
@@ -48,7 +48,7 @@
         oninvalid="this.setCustomValidity('Obvezno polje')"
         >
       % for id,ime_mesta in id_mesta_konec:
-          <option value='{{id}}' {{'selected' if id==id_mesta_konec else ''}}>{{ime_mesta_konec}}</option>
+          <option value='{{id}}' {{'selected' if id==id_mesta_konec else ''}}>{{ime_mesta}}</option>
       % end  
     </select>
     </div>
