@@ -288,7 +288,7 @@ def clani_skupine(x):
     uporabnik = preveriUporabnika()
     if uporabnik is None: 
         return
-    cur.execute("""SELECT uporabnisko_ime,ime,priimek,datum_rojstva,drzavljanstvo,clanstvo,st_izleta 
+    cur.execute("""SELECT uporabnisko_ime,ime,priimek,datum_rojstva,drzavljanstvo,clanstvo,st_vlaka
                 FROM oseba WHERE clanstvo = %s""", [x])
     return template('clani_skupine.html', x=x, oseba=cur)
 
