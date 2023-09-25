@@ -410,6 +410,7 @@ def dodaj_vlak_post():
 #######################
 #cena
 ##################
+
 @get('/cena')
 def cena():
     uporabnik = preveriUporabnika()
@@ -419,23 +420,16 @@ def cena():
     max_price_enosmerna = request.query.get('max_price_enosmerna', None)  # max za enosmerne cene
     max_price_povratna = request.query.get('max_price_povratna', None)  # max za povratne cene
 
-    # Convert the filter parameters to valid numeric values or None
-    max_price_enosmerna = float(max_price_enosmerna) if max_price_enosmerna else None
-    max_price_povratna = float(max_price_povratna) if max_price_povratna else None
-
-    # Define placeholders for SQL query and parameters
-    sql = """
-        SELECT id, cena_enosmerne, cena_povratne
+    # Execute the SQL query with placeholders directly
+    cur.execute("""
+        SELECT cena.id, cena.cena_enosmerne, cena.cena_povratne
         FROM cena
-        WHERE (%s IS NULL OR cena_enosmerne <= %s)
-        AND (%s IS NULL OR cena_povratne <= %s)
-    """
-    params = (max_price_enosmerna, max_price_enosmerna, max_price_povratna, max_price_povratna)
-
-    # Execute the SQL query with placeholders and parameters
-    cur.execute(sql, params)
+        WHERE (%s IS NULL OR cena.cena_enosmerne <= %s)
+        AND (%s IS NULL OR cena.cena_povratne <= %s)
+    """, (max_price_enosmerna, max_price_enosmerna, max_price_povratna, max_price_povratna))
 
     return template('cena.html', cena=cur)
+
 
 
 

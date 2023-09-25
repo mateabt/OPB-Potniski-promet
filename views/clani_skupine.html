@@ -1,4 +1,4 @@
-% setdefault('naslov', 'Člani podjetja')
+% setdefault('naslov', 'Delavci v podjetja')
 % rebase('osnova.html')
 
 <table class="table table-hover">
@@ -8,7 +8,7 @@
        <th>Priimek</th>
        <th>Datum rojstva</th>
        <th>Državljanstvo</th>
-       <th>Članstvo</th>
+       <th>Delodajalec</th>
        <th>Številka vlaka</th>
     </thead>
     %for (uporabnisko_ime,ime,priimek,datum_rojstva,drzavljanstvo,clanstvo,st_vlaka) in oseba:
@@ -25,5 +25,5 @@
 </table>
 
   <p>
-    <a href="{{url('skupine')}}" type="button" class="btn btn-info">Nazaj na skupine</a>
+    <a href="{{url('skupine')}}" type="button" class="btn btn-info">Nazaj</a>
   </p>
