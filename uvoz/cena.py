@@ -11,8 +11,8 @@ def ustvari_tabelo():
     cur.execute("""
         CREATE TABLE cena (
             id NUMERIC PRIMARY KEY,
-            ime_mesta TEXT NOT NULL,
-            kratica_drzave TEXT NOT NULL REFERENCES drzava(kratica)
+            cena_enosmerne REAL,
+            cena_povratne REAL
             );
     """)
     conn.commit()
@@ -30,11 +30,11 @@ def uvozi_podatke():
         for r in rd:
             cur.execute("""
                 INSERT INTO cena
-                (id, cena_enosmerna, cena_povratna)
+                (id, cena_enosmerne, cena_povratne)
                 VALUES (%s, %s, %s)
                 """, r)
             # rid, = cur.fetchone()
-            print("Uvožen vlak z ID-jem %s ki ima ceno enosmerne %s ,povratne %s" % (r[1], r[2], r[0]))
+            print("Uvožen vlak z ID-jem %s ki ima ceno enosmerne %s ,povratne %s" % (r[0], r[1], r[2]))
     conn.commit()
 
 
@@ -43,4 +43,4 @@ cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
 #pobrisi_tabelo()
 #ustvari_tabelo()
-#uvozi_podatke()
+uvozi_podatke()
