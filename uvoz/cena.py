@@ -26,16 +26,27 @@ def pobrisi_tabelo():
 def uvozi_podatke():
     with open("podatki/cena.csv", encoding="utf-8", errors='ignore') as f:
         rd = csv.reader(f)
-        next(rd) # izpusti naslovno vrstico
+        next(rd)  # Skip the header row
         for r in rd:
-            cur.execute("""
+            id_value = int(r[0])  
+            cena_enosmerne = float(r[1])
+            cena_povratne = float(r[2])
+
+            cur.execute(
+                """
                 INSERT INTO cena
                 (id, cena_enosmerne, cena_povratne)
                 VALUES (%s, %s, %s)
-                """, r)
-            # rid, = cur.fetchone()
-            print("Uvožen vlak z ID-jem %s ki ima ceno enosmerne %s ,povratne %s" % (r[0], r[1], r[2]))
+                """,
+                (id_value, cena_enosmerne, cena_povratne),  # Pass values as a tuple
+            )
+
+            print(
+                "Uvožen vlak z ID-jem %s ki ima ceno enosmerne %s ,povratne %s"
+                % (id_value, cena_enosmerne, cena_povratne)
+            )
     conn.commit()
+
 
 
 conn = psycopg2.connect(database=auth.db, host=auth.host, user=auth.user, password=auth.password)
@@ -43,4 +54,4 @@ cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
 #pobrisi_tabelo()
 #ustvari_tabelo()
-uvozi_podatke()
+#uvozi_podatke()

@@ -406,8 +406,26 @@ def dodaj_vlak_post():
     redirect(url('vlak'))
 
 
+#cena
+@get('/osebe')
+def osebe():
+    uporabnik = preveriUporabnika()
+    if uporabnik is None: 
+        return
+    cur.execute("""SELECT uporabnisko_ime,ime,priimek,datum_rojstva,drzavljanstvo,clanstvo,st_vlaka
+                FROM oseba ORDER BY priimek, ime""")
+    return template('osebe.html', oseba=cur)
 
 
+
+@get('/cena')
+def cena():
+    uporabnik = preveriUporabnika()
+    if uporabnik is None: 
+        return
+    cur.execute("""SELECT id, cena_enosmerne, cena_povratne   
+        FROM cena""")
+    return template('cena.html', cena=cur)
 
 ######################################################################
 # Glavni program
