@@ -1,11 +1,11 @@
-% setdefault('naslov', 'Urejanje članstva')
+% setdefault('naslov', 'Urejanje delodajalca')
 % rebase('osnova.html')
 
 
   <form action="{{url('uredi_clanstvo')}}" method="POST">
     <div class="form-row">
       <div class="form-group col-md-3">
-        <label for="id_skupine">Izberi skupino</label>
+        <label for="id_skupine">Izberi delodajalec</label>
         <select name="id_skupine" id="id_skupine"
           type="integer" class="form-control" required
           oninput="this.setCustomValidity('')"
