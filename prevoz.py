@@ -420,7 +420,10 @@ def cena():
     max_price_enosmerna = request.query.get('max_price_enosmerna', None)  # max za enosmerne cene
     max_price_povratna = request.query.get('max_price_povratna', None)  # max za povratne cene
 
-    # Execute the SQL query with placeholders directly
+    # Convert the filter parameters to valid numeric values or None
+    max_price_enosmerna = float(max_price_enosmerna) if max_price_enosmerna else None
+    max_price_povratna = float(max_price_povratna) if max_price_povratna else None
+
     cur.execute("""
         SELECT cena.id, cena.cena_enosmerne, cena.cena_povratne
         FROM cena
@@ -429,6 +432,8 @@ def cena():
     """, (max_price_enosmerna, max_price_enosmerna, max_price_povratna, max_price_povratna))
 
     return template('cena.html', cena=cur)
+
+
 
 
 
