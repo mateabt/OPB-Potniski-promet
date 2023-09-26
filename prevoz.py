@@ -235,20 +235,34 @@ def osebe():
 ######################################
 #vlaki
 ######################################
+
 @get('/vlak')
 def vlak():
     uporabnik = preveriUporabnika()
     if uporabnik is None: 
         return
-    cur.execute("""SELECT vlak.st_vlaka, vlak.st_prestopi, 
-           zacetek.ime_mesta AS ime_mesta_zacetek, 
-           konec.ime_mesta AS ime_mesta_konec, 
-           vlak.cas_odhoda, 
-           vlak.cas_prihoda
-        FROM vlak
-        JOIN mesto AS zacetek ON vlak.id_mesta_zacetek = zacetek.id
-        JOIN mesto AS konec ON vlak.id_mesta_konec = konec.id;""")
-    return template('vlak.html', vlak=cur)
+    filter_start = request.query.get('filter_start')
+    filter_end = request.query.get('filter_end')
+
+    query = """SELECT vlak.st_vlaka, vlak.st_prestopi, 
+               zacetek.ime_mesta AS ime_mesta_zacetek, 
+               konec.ime_mesta AS ime_mesta_konec, 
+               vlak.cas_odhoda, 
+               vlak.cas_prihoda
+            FROM vlak
+            JOIN mesto AS zacetek ON vlak.id_mesta_zacetek = zacetek.id
+            JOIN mesto AS konec ON vlak.id_mesta_konec = konec.id"""
+
+    if filter_start:
+        query += f" WHERE zacetek.ime_mesta = '{filter_start}'"
+        if filter_end:
+            query += f" AND konec.ime_mesta = '{filter_end}'"
+
+    cur.execute(query)
+    filtered_results = cur.fetchall()
+
+    return template('vlak.html', vlak=filtered_results)
+
 
     
 #########################
