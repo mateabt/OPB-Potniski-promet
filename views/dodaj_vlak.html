@@ -76,6 +76,45 @@
   </div>
 </div>
 
+<div class="form-row">
+  <div class="form-group col-md-3">
+      <label for="cena_enosmerne">Cena enosmerne:</label>
+      <input id="cena_enosmerne" name="cena_enosmerne" type="number" step="0.01" class="form-control" required
+          oninput="validateInput(this)" />
+  </div>
+</div>
+
+<div class="form-row">
+  <div class="form-group col-md-3">
+      <label for="cena_povratne">Cena povratne:</label>
+      <input id="cena_povratne" name="cena_povratne" type="number" step="0.01" class="form-control" required
+          oninput="validateInput(this)" />
+  </div>
+</div>
+<!-- preverja ali je cena_enosmerne <= cena_povratne -->
+<script>
+  function validateInput(input) {
+      var cenaEnosmerneInput = document.getElementById("cena_enosmerne");
+      var cenaPovratneInput = document.getElementById("cena_povratne");
+
+      // Get the values of both input fields and convert them to numbers
+      var cenaEnosmerneValue = parseFloat(cenaEnosmerneInput.value);
+      var cenaPovratneValue = parseFloat(cenaPovratneInput.value);
+
+      // Check if cena_enosmerne is greater than cena_povratne
+      if (cenaEnosmerneValue > cenaPovratneValue) {
+          // Set a custom validity message
+          input.setCustomValidity("Cena enosmerne mora biti manjša ali enaka ceni povratne vozovnice.");
+      } else {
+          // Clear any custom validity message
+          input.setCustomValidity("");
+      }
+  }
+</script>
+
+
+
+
 
   
  <div class="form-row col">

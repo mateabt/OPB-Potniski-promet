@@ -53,6 +53,7 @@ def preveriUporabnika():
 
 ##########################
 # začetna stran
+##########################
 @get('/')
 def hello():
     return template('zacetna_stran.html')
@@ -394,16 +395,26 @@ def dodaj_vlak_post():
     st_vlaka = request.forms.st_vlaka
     st_prestopi = request.forms.st_prestopi
     id_mesta_zacetek = request.forms.id_mesta_zacetek
-    id_mesta_konec=request.forms.id_mesta_konec
-    cas_odhoda=request.forms.cas_odhoda
-    cas_prihoda=request.forms.cas_prihoda
+    id_mesta_konec = request.forms.id_mesta_konec
+    cas_odhoda = request.forms.cas_odhoda
+    cas_prihoda = request.forms.cas_prihoda
+    cena_enosmerne = request.forms.cena_enosmerne  
+    cena_povratne = request.forms.cena_povratne    
+
     try:
-        cur.execute("INSERT INTO vlak (st_vlaka, st_prestopi, id_mesta_zacetek,id_mesta_konec,cas_odhoda,cas_prihoda) VALUES (%s, %s, %s, %s,%s,%s)",
-                    (st_vlaka, st_prestopi, id_mesta_zacetek,id_mesta_konec,cas_odhoda,cas_prihoda))
+        
+        cur.execute("INSERT INTO vlak (st_vlaka, st_prestopi, id_mesta_zacetek, id_mesta_konec, cas_odhoda, cas_prihoda) VALUES (%s, %s, %s, %s, %s, %s)",
+                    (st_vlaka, st_prestopi, id_mesta_zacetek, id_mesta_konec, cas_odhoda, cas_prihoda))
         conn.commit()
+
+       
+        cur.execute("INSERT INTO cena (id, cena_enosmerne, cena_povratne) VALUES (%s, %s, %s)",
+                    (st_vlaka, cena_enosmerne, cena_povratne))
+        conn.commit()
+
     except Exception as ex:
         conn.rollback()
-        return template('dodaj_vlak.html', st_vlaka=st_vlaka, st_prestopi=st_prestopi, id_mesta_zacetek=id_mesta_zacetek, id_mesta_konec=id_mesta_konec,cas_odhoda=cas_odhoda,cas_prihoda=cas_prihoda,
+        return template('dodaj_vlak.html', st_vlaka=st_vlaka, st_prestopi=st_prestopi, id_mesta_zacetek=id_mesta_zacetek, id_mesta_konec=id_mesta_konec, cas_odhoda=cas_odhoda, cas_prihoda=cas_prihoda,
                         napaka='Zgodila se je napaka: %s' % ex)
     redirect(url('vlak'))
 
@@ -432,18 +443,6 @@ def cena():
     """, (max_price_enosmerna, max_price_enosmerna, max_price_povratna, max_price_povratna))
 
     return template('cena.html', cena=cur)
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
