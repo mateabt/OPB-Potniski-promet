@@ -235,7 +235,6 @@ def osebe():
 ######################################
 #vlaki
 ######################################
-from urllib.parse import unquote
 
 @get('/vlak')
 def vlak():
@@ -243,12 +242,10 @@ def vlak():
     if uporabnik is None: 
         return
 
-    # Fetch the list of available starting and ending cities for the dropdown menus
-    # You need to provide 'filter_start' and 'filter_end' options based on your data
+
     filter_start_options = [(id, ime_mesta) for id, ime_mesta in najdi_id_mesta()]
     filter_end_options = [(id, ime_mesta) for id, ime_mesta in najdi_id_mesta()]
 
-    # Retrieve values for 'filter_start' and 'filter_end' from the query parameters
     filter_start = request.query.get('filter_start')
     filter_end = request.query.get('filter_end')
 
@@ -262,16 +259,15 @@ def vlak():
             JOIN mesto AS konec ON vlak.id_mesta_konec = konec.id"""
 
     if filter_start and filter_end:
-        query += f" WHERE zacetek.ime_mesta = '{filter_start}' AND konec.ime_mesta = '{filter_end}'"
+        query += f" WHERE zacetek.id = '{filter_start}' AND konec.id = '{filter_end}'"
     elif filter_start:
-        query += f" WHERE zacetek.ime_mesta = '{filter_start}'"
+        query += f" WHERE zacetek.id = '{filter_start}'"
     elif filter_end:
-        query += f" WHERE konec.ime_mesta = '{filter_end}'"
+        query += f" WHERE konec.id = '{filter_end}'"
 
     cur.execute(query)
     filtered_results = cur.fetchall()
 
-    # Pass the filter options and selected values to the template
     return template('vlak.html', vlak=filtered_results, filter_start=filter_start_options, filter_end=filter_end_options)
 
       
