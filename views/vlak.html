@@ -25,11 +25,19 @@
 
 <!-- Filter form for places -->
 <form action="/vlak" method="get">
-   <label for="filter_start">Izberi Zečetno mesto:</label>
-   <input type="text" id="filter_start" name="filter_start">
-   
+   <label for="filter_start">Izberi Začetno mesto:</label>
+   <select name="filter_start" id="filter_start" class="form-control" required>
+      % for id, ime_mesta in filter_start:
+         <option value="{{ ime_mesta }}">{{ ime_mesta }}</option>
+      % end
+   </select>
+
    <label for="filter_end">Izberi končno mesto:</label>
-   <input type="text" id="filter_end" name="filter_end">
-   
+   <select name="filter_end" id="filter_end" class="form-control" required>
+      % for id, ime_mesta in filter_end:
+         <option value="{{ ime_mesta }}">{{ ime_mesta }}</option>
+      % end
+   </select>
+
    <button type="submit" class="btn btn-primary">Filter</button>
 </form>
