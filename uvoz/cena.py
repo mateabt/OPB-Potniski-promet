@@ -1,3 +1,4 @@
+-- Active: 1677946129074@@baza.fmf.uni-lj.si@5432@sem2023_matean
 # uvozimo ustrezne podatke za povezavo
 import auth_public as auth
 
@@ -10,9 +11,10 @@ import csv
 def ustvari_tabelo():
     cur.execute("""
         CREATE TABLE cena (
-            id NUMERIC PRIMARY KEY,
+            id INTEGER REFERENCES vlak(st_vlaka),
             cena_enosmerne REAL,
-            cena_povratne REAL
+            cena_povratne REAL,
+            PRIMARY KEY(id)
             );
     """)
     conn.commit()
@@ -28,10 +30,7 @@ def uvozi_podatke():
         rd = csv.reader(f)
         next(rd)  # Skip the header row
         for r in rd:
-            id_value = int(r[0])  
-            cena_enosmerne = float(r[1])
-            cena_povratne = float(r[2])
-
+            
             cur.execute(
                 """
                 INSERT INTO cena
@@ -53,5 +52,5 @@ conn = psycopg2.connect(database=auth.db, host=auth.host, user=auth.user, passwo
 cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor) 
 
 #pobrisi_tabelo()
-#ustvari_tabelo()
+ustvari_tabelo()
 #uvozi_podatke()
