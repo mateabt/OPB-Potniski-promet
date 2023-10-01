@@ -10,4 +10,5 @@ Vsak uporabnik lahko vnese obstoječega delodajalca ali pa ustvari novega, ki š
 
 ## ER diagram
 
-![Diagram1](https://github.com/mateabt/OPB-Potniski-promet/assets/47794374/398133b7-449d-4ea8-b707-3fb375674410)
+
+![Diagram1](https://github.com/mateabt/OPB-Potniski-promet/assets/47794374/379fe0ad-9bb6-48d4-be0c-9a384c913252)
