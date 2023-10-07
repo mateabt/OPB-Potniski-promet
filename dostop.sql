@@ -7,6 +7,11 @@ GRANT INSERT ON osebe TO javnost;
 GRANT INSERT ON drzava TO javnost;
 GRANT INSERT ON mesto TO javnost;
 GRANT INSERT ON skupine TO javnost;
+GRANT INSERT ON cena TO javnost;
+GRANT INSERT ON vlak TO javnost;
+
+
 GRANT UPDATE ON vlak TO javnost;
+
 
 GRANT USAGE ON ALL SEQUENCES IN SCHEMA public TO javnost;
