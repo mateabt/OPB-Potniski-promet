@@ -33,7 +33,6 @@ def uvozi_podatke():
                 (id, ime_mesta, kratica_drzave)
                 VALUES (%s, %s, %s)
                 """, r)
-            # rid, = cur.fetchone()
             print("Uvoženo mesto %s iz %s z ID-jem %s" % (r[1], r[2], r[0]))
     conn.commit()
 

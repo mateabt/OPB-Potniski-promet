@@ -61,7 +61,7 @@ def zgosti():
     gesla = cur.fetchall()
 
     for geslo in gesla:
-        geslo_str = geslo[0]  # Extract the password from the tuple
+        geslo_str = geslo[0]  # Izvlece geslo 
         geslo_hashed = hashGesla(geslo_str)
         cur.execute("UPDATE oseba SET geslo=%s WHERE geslo=%s", (geslo_hashed, geslo_str))
         conn.commit()

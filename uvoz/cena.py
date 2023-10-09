@@ -29,7 +29,7 @@ def pobrisi_tabelo():
 def uvozi_podatke():
     with open("podatki/cena.csv", encoding="utf-8", errors='ignore') as f:
         rd = csv.reader(f)
-        next(rd)  # Skip the header row
+        next(rd)  # izpusti naslovno vrstico
         for r in rd:
             id = int(r[0])  
             cena_enosmerne = float(r[1])
@@ -41,7 +41,7 @@ def uvozi_podatke():
                 (id, cena_enosmerne, cena_povratne)
                 VALUES (%s, %s, %s)
                 """,
-                (id, cena_enosmerne, cena_povratne),  # Pass values as a tuple
+                (id, cena_enosmerne, cena_povratne), 
             )
 
             print(

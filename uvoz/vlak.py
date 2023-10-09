@@ -36,7 +36,6 @@ def uvozi_podatke():
                 (st_vlaka,st_prestopi,id_mesta_zacetek,id_mesta_konec,cas_odhoda,cas_prihoda)
                 VALUES (%s, %s, %s,%s,%s,%s)
                 """, r)
-            # rid, = cur.fetchone()
             print("Uvožen vlak z ID-jem %s" % (r[0]))
     conn.commit()
 

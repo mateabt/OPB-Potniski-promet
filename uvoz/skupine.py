@@ -27,7 +27,6 @@ def uvozi_podatke():
                 (id_skupine, ime_skupine)
                 VALUES (%s, %s)
                 """,r)
-            #rid, = cur.fetchone()
             print("Uvožena skupina %s z ID-jem %s " % (r[1], r[0]))
     conn.commit()
 conn = psycopg2.connect(database=auth.db, host=auth.host, user=auth.user, password=auth.password)
