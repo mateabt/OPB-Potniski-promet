@@ -22,7 +22,8 @@ DB_PORT = os.environ.get('POSTGRES_PORT', 5432)
 # odkomentiraj, če želiš sporočila o napakah
 debug = True
 
-skrivnost = "rODX3ulHw3ZYRdbIVcp1IfJTDn8iQTH6TFaNBgrSkjIulr"
+#Skrivnost za kodiranje cookijev
+skrivnost = "rODX3ulHw3ZYRdbIVcp1IfJTDn8iQTH6TFaNBgrSkjIulr" 
 
 def nastaviSporocilo(sporocilo = None):
     # global napakaSporocilo
@@ -60,17 +61,20 @@ def hello():
 
 ##########################
 def hashGesla(s):
+    """zakodiranje"""
     m = hashlib.sha256()
     m.update(s.encode("utf-8"))
     return m.hexdigest()
 
 @get('/registracija')
 def registracija_get():
+    """Prikazi formo za registracijo"""
     napaka = nastaviSporocilo()
     return template('registracija.html', napaka=napaka)
 
 @post('/registracija')
 def registracija_post():
+    """Registriraj novega uporabnika"""
     uporabnisko_ime = request.forms.uporabnisko_ime
     geslo = request.forms.geslo
     geslo2 = request.forms.geslo2
@@ -99,21 +103,26 @@ def registracija_post():
         nastaviSporocilo('Gesli se ne ujemata.')
         redirect(url('registracija_get'))
         return
+    # Vse je vredu, vstavi novega vporabnika v bazo
     zgostitev = hashGesla(geslo)
     cur.execute("""INSERT INTO oseba
                 (uporabnisko_ime,ime,priimek,datum_rojstva,geslo)
                 VALUES (%s, %s, %s, %s, %s)""", (uporabnisko_ime,ime,priimek,datum_rojstva, zgostitev))
     conn.commit()
+    #Daj uporabniku cookie
     response.set_cookie('uporabnisko_ime', uporabnisko_ime, path='/', secret=skrivnost)
     redirect(url('podatki_prijavljenega'))
 
 
 @get('/prijava')
 def prijava_get():
+    """sevira formo za login """
     return template('prijava.html')
 
 @post('/prijava')
 def prijava_post():
+    """obdela izpolnjeno formo za prijavo"""
+    #uporabnisko ime, ki ga je uporabnik vpisal v formo
     uporabnisko_ime = request.forms.uporabnisko_ime
     geslo = request.forms.geslo
     if uporabnisko_ime is None or geslo is None:
@@ -134,11 +143,13 @@ def prijava_post():
         nastaviSporocilo('Uporabniško geslo ali ime nista ustrezni') 
         redirect(url('prijava_get'))
         return
+    # vse je uredu nastavimo cookie in preusmerimo 
     response.set_cookie('uporabnisko_ime', uporabnisko_ime, secret=skrivnost)
     redirect(url('podatki_prijavljenega'))
     
 @get('/odjava')
 def odjava_get():
+    """Pobrisi cookie  in preusmeri na hello"""
     response.delete_cookie(key='uporabnisko_ime')
     redirect(url('hello'))
 
@@ -147,6 +158,7 @@ def odjava_get():
 ###################################
 @get('/podatki_prijavljenega')
 def podatki_prijavljenega():
+    """Prikazi stran uporabnika"""
     uporabnik = preveriUporabnika()
     if uporabnik is None: 
         return
@@ -190,12 +202,14 @@ def uredi_clanstvo_post():
                         napaka='Zgodila se je napaka: %s' % ex)
     redirect(url('podatki_prijavljenega'))
 
-def najdi_kratico():
-    cur.execute("SELECT kratica,ime_drzave FROM drzava;")
-    return cur.fetchall()
+
 ###################################################
 # drzavljanstvo
 ###################################################
+def najdi_kratico():
+    cur.execute("SELECT kratica,ime_drzave FROM drzava;")
+    return cur.fetchall()
+
 @get('/uredi_drzavljanstvo')
 def uredi_drzavljanstvo():
     uporabnik = preveriUporabnika()
@@ -451,7 +465,7 @@ def cena():
     max_price_enosmerna = request.query.get('max_price_enosmerna', None)  # max za enosmerne cene
     max_price_povratna = request.query.get('max_price_povratna', None)  # max za povratne cene
 
-    # Convert the filter parameters to valid numeric values or None
+    # Pretvorbo parametre v številske vrednosti ali None
     max_price_enosmerna = float(max_price_enosmerna) if max_price_enosmerna else None
     max_price_povratna = float(max_price_povratna) if max_price_povratna else None
 
