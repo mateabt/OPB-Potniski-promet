@@ -97,16 +97,16 @@
       var cenaEnosmerneInput = document.getElementById("cena_enosmerne");
       var cenaPovratneInput = document.getElementById("cena_povratne");
 
-      // Get the values of both input fields and convert them to numbers
+      // Pridobi vrednosti obeh inputov in jih pretvori v števila
       var cenaEnosmerneValue = parseFloat(cenaEnosmerneInput.value);
       var cenaPovratneValue = parseFloat(cenaPovratneInput.value);
 
-      // Check if cena_enosmerne is greater than cena_povratne
+      // Preveri ce  cena_enosmerne >= cena_povratne
       if (cenaEnosmerneValue > cenaPovratneValue) {
-          // Set a custom validity message
+          // Nastavite sporočilo o veljavnosti
           input.setCustomValidity("Cena enosmerne mora biti manjša ali enaka ceni povratne vozovnice.");
       } else {
-          // Clear any custom validity message
+         // Počisti sporočila o veljavnosti
           input.setCustomValidity("");
       }
   }
