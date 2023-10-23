@@ -283,8 +283,7 @@ def vlak():
     filtered_results = cur.fetchall()
 
     return template('vlak.html', vlak=filtered_results, filter_start=filter_start_options, filter_end=filter_end_options)
-
-      
+     
 #########################
 #skupine
 ############################

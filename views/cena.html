@@ -1,6 +1,18 @@
 % setdefault('naslov', 'Cena')
 % rebase('osnova.html', izbrani_zavihek='cena')
 
+<!-- Filtriranje cene enosmerne in povratne -->
+<form action="{{url('cena')}}" method="GET">
+    <label for="max_price_enosmerna">Maximum enosmerne cene:</label>
+    <input type="number" id="max_price_enosmerna" name="max_price_enosmerna" min="0" step="0.01">
+    
+    <label for="max_price_povratna">Maksimum povratne cene:</label>
+    <input type="number" id="max_price_povratna" name="max_price_povratna" min="0" step="0.01">
+    
+    <button type="submit" class="btn btn-primary">Filtriraj</button>
+</form>
+
+
 <table class="table table-hover">
     <thead class="thead-light">
         <th>Št. vlaka</th>
@@ -18,14 +30,5 @@
     </tbody>
 </table>
 
-<!-- Filtriranje cene enosmerne in povratne -->
-<form action="/cena" method="get">
-    <label for="max_price_enosmerna">Maximum enosmerne cene:</label>
-    <input type="number" id="max_price_enosmerna" name="max_price_enosmerna" min="0" step="0.01">
-    
-    <label for="max_price_povratna">Maksimum povratne cene:</label>
-    <input type="number" id="max_price_povratna" name="max_price_povratna" min="0" step="0.01">
-    
-    <button type="submit" class="btn btn-primary">Filtriraj</button>
-</form>
+
 

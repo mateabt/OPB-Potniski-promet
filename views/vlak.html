@@ -1,30 +1,7 @@
 % setdefault('naslov', 'Vlaki')
 % rebase('osnova.html', izbrani_zavihek='vlak')
-
-  <table class="table table-hover">
-  <thead class="thead-light">
-     <th>Št. vlaka</th>
-     <th>Št. prestopi</th>
-     <th>Začetno mesto</th>
-     <th>Končno mesto</th>
-     <th>Čas odhoda</th>
-     <th>Čas prihoda</th>
-  </tr>
-  %for (st_vlaka,st_prestopi,ime_mesta_zacetek,ime_mesta_konec,cas_odhoda,cas_prihoda) in vlak:
-    <tr>
-       <td>{{st_vlaka}}</td>
-       <td>{{st_prestopi}}</td>
-       <td>{{ime_mesta_zacetek}}</td>
-       <td>{{ime_mesta_konec}}</td>
-       <td>{{cas_odhoda}}</td>
-       <td>{{cas_prihoda}}</td>
-
-    </tr>
-  %end
-  </table>
-
 <!-- Filter mest -->
-<form action="/vlak" method="get">
+<form action="{{url('vlak')}}" method="GET">
    <label for="filter_start">Izberi Začetno mesto:</label>
    <select name="filter_start" id="filter_start" class="form-control" required>
       % for id, ime_mesta in filter_start:
@@ -41,3 +18,29 @@
 
    <button type="submit" class="btn btn-primary">Filtriraj</button>
 </form>
+
+
+
+
+<table class="table table-hover">
+<thead class="thead-light">
+   <th>Št. vlaka</th>
+   <th>Št. prestopi</th>
+   <th>Začetno mesto</th>
+   <th>Končno mesto</th>
+   <th>Čas odhoda</th>
+   <th>Čas prihoda</th>
+</tr>
+%for (st_vlaka,st_prestopi,ime_mesta_zacetek,ime_mesta_konec,cas_odhoda,cas_prihoda) in vlak:
+  <tr>
+     <td>{{st_vlaka}}</td>
+     <td>{{st_prestopi}}</td>
+     <td>{{ime_mesta_zacetek}}</td>
+     <td>{{ime_mesta_konec}}</td>
+     <td>{{cas_odhoda}}</td>
+     <td>{{cas_prihoda}}</td>
+  </tr>
+%end
+</table>
+
+
