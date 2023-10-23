@@ -7,7 +7,7 @@ import csv
 def ustvari_tabelo():
     cur.execute("""
         CREATE TABLE skupina (
-            id_skupine INTEGER PRIMARY KEY NOT NULL,
+            id_skupine SERIAL PRIMARY KEY,
             ime_skupine TEXT NOT NULL
         );
     """) 
@@ -34,4 +34,4 @@ cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
 #pobrisi_tabelo()
 #ustvari_tabelo()
-#uvozi_podatke()
+uvozi_podatke()

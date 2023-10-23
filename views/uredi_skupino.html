@@ -1,4 +1,4 @@
-% setdefault('naslov', 'Urejanje skupine')
+% setdefault('naslov', 'Urejanje delodajalca')
 % rebase('osnova.html')
 
 %if napaka:
@@ -8,7 +8,7 @@
 <form action="{{url('uredi_skupino')}}" method="POST">
   <div class="form-row">
     <div class="form-group col-md-3">
-      <label for="id_skupine">Skupina:</label>
+      <label for="id_skupine">Delodajalec:</label>
       <select name="id_skupine" id="id_skupine"
         type="integer" class="form-control" required
         oninput="this.setCustomValidity('')"
@@ -22,7 +22,7 @@
   </div>
   <div class="form-row">
     <div class="form-group col-md-5">
-      <label for="ime_skupine">Novo ime skupine:</label>
+      <label for="ime_skupine">Novo ime delodajalca:</label>
       <input id="ime_skupine" name="ime_skupine" type="text" class="form-control" required
         oninput="this.setCustomValidity('')"
         oninvalid="this.setCustomValidity('Obvezno polje')"

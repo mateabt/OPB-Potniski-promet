@@ -300,22 +300,20 @@ def dodaj_skupino():
     uporabnik = preveriUporabnika()
     if uporabnik is None: 
         return
-    return template('dodaj_skupino.html', id_skupine='', ime_skupine='', napaka=None)
+    return template('dodaj_skupino.html', ime_skupine='', napaka=None)
 
 @post('/dodaj_skupino')
 def dodaj_skupino_post():
     uporabnik = preveriUporabnika()
     if uporabnik is None: 
         return
-    id_skupine = request.forms.id_skupine
     ime_skupine = request.forms.ime_skupine
     try:
-        cur.execute("INSERT INTO skupina (id_skupine, ime_skupine) VALUES (%s, %s)",
-                    (id_skupine, ime_skupine))
+        cur.execute("INSERT INTO skupina (ime_skupine) VALUES (%s)",[ime_skupine])
         conn.commit()
     except Exception as ex:
         conn.rollback()
-        return template('dodaj_skupino.html', id_skupine=id_skupine, ime_skupine=ime_skupine,
+        return template('dodaj_skupino.html', ime_skupine=ime_skupine,
                         napaka='Zgodila se je napaka: %s' % ex)
     redirect(url('skupine'))
 
